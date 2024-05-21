@@ -1,0 +1,17 @@
+<mat-toolbar>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>My App</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button (click)="toggleTheme()">
+        @if (dark_mode()) {
+            <mat-icon>dark_mode</mat-icon>
+        } @else {
+            <mat-icon>light_mode</mat-icon>
+        }
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon>share</mat-icon>
+    </button>
+</mat-toolbar>
