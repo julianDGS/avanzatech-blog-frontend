@@ -1,6 +1,6 @@
 export default [
     {
-        path: 'auth',
+        path: '',
         loadComponent: () => import('./auth.component'),
         children: [
             {
