@@ -27,14 +27,11 @@ export class TopbarComponent {
   }
 
   onLogout(){
-    this.authSV.logout().subscribe({
-      next: (resp) => {
+    this.authSV.logout().subscribe(
+      (resp) => {
         console.log(resp);
         this.router.navigate(['auth'])
-      },
-      error: (err) => {
-        console.log(err)
-      }
+      
     })
   }
 

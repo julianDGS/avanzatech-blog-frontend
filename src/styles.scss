@@ -1,4 +1,13 @@
 @import "../node_modules/primeflex/primeflex.scss";
+@import 'ngx-toastr/toastr';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-mdc-snack-bar-container{
+  &.blue-snackbar {
+    --mdc-snackbar-container-color: #f8b3a2;
+    --mat-snack-bar-button-color: #b12f0e;
+    --mdc-snackbar-supporting-text-color: #b12f0e;
+  }
+}
