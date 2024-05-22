@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import {  FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +7,7 @@ import { RegisterValidators } from '../../util/register.validator';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthRequest } from '../../models/auth/login.model';
 
 
 @Component({
@@ -23,15 +24,19 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './auth-form.component.html',
   styleUrl: './auth-form.component.scss'
 })
-export class AuthFormComponent {
+export class AuthFormComponent implements OnInit {
 
   authForm!: FormGroup;
   hide = signal(true)
   hideConfirm = signal(true)
 
+  @Input() login?: boolean;
+
   constructor(
     private fb: FormBuilder
-  ){
+  ){ }
+  
+  ngOnInit(): void {
     this.buildForm();
   }
 
@@ -43,10 +48,19 @@ export class AuthFormComponent {
     }
   }
 
-  register(){
+  onSubmit(){
     if(!this.authForm.pristine){
-      const request = this.authForm.value;
-      console.log(request);
+      if(this.login){
+        const request: AuthRequest = this.authForm.value;
+        request.username = this.authForm.value.email;
+        delete request.email;
+        delete request.name;
+        delete request.last_name;
+        delete request.confirm_password;
+        console.log(request);
+      } else {
+
+      }
     }
   }
 
@@ -76,6 +90,17 @@ export class AuthFormComponent {
     {
       validators: RegisterValidators.matchPasswords
     })
+
+    if(this.login){
+      this.authForm.clearValidators();
+      this.authForm.updateValueAndValidity()
+      this.authForm.get('name')?.clearValidators()
+      this.authForm.get('last_name')?.clearValidators()
+      this.authForm.get('confirm_password')?.clearValidators()
+      this.authForm.get('name')?.updateValueAndValidity()
+      this.authForm.get('last_name')?.updateValueAndValidity()
+      this.authForm.get('confirm_password')?.updateValueAndValidity()
+    }
   }
 
 }
