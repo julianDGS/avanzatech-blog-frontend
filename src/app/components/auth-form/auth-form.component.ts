@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import {  FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { MatCardModule } from '@angular/material/card';
@@ -31,6 +31,7 @@ export class AuthFormComponent implements OnInit {
   hideConfirm = signal(true)
 
   @Input() login?: boolean;
+  @Output() formData = new EventEmitter<AuthRequest>();
 
   constructor(
     private fb: FormBuilder
@@ -57,7 +58,7 @@ export class AuthFormComponent implements OnInit {
         delete request.name;
         delete request.last_name;
         delete request.confirm_password;
-        console.log(request);
+        this.formData.emit(request);
       } else {
 
       }

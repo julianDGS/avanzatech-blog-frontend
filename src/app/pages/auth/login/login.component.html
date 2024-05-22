@@ -1,1 +1,4 @@
-<app-auth-form [login]="true"></app-auth-form>
+<app-auth-form 
+    [login]="true"
+    (formData)="loginUser($event)"
+/>
