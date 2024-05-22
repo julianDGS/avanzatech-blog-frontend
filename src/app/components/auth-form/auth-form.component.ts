@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, effect, signal } from '@angular/core';
 import {  FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { MatCardModule } from '@angular/material/card';
@@ -8,12 +8,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthRequest } from '../../models/auth/login.model';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-auth-form',
   standalone: true,
   imports: [
+    RouterLink,
     ReactiveFormsModule,
     MatCardModule, 
     MatFormFieldModule,
@@ -60,7 +62,8 @@ export class AuthFormComponent implements OnInit {
         delete request.confirm_password;
         this.formData.emit(request);
       } else {
-
+        const request: AuthRequest = this.authForm.value;
+        this.formData.emit(request);
       }
     }
   }

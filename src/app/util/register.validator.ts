@@ -10,8 +10,8 @@ export class RegisterValidators {
             checkPassword.setErrors(null)
             return null;
           }
-          checkPassword.setErrors({incorrect: true})
+          checkPassword.setErrors({matcherror: true})
       }
-      return {confirm_password: true};
+      return {matchpassword: true};
     }
 }

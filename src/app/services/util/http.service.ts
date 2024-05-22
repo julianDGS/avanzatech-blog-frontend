@@ -32,7 +32,7 @@ export class HttpService {
     );
   }
 
-  post<T>(url:string, request: any, credentials=true): Observable<T>{
+  post<T>(url:string, request: object, credentials=true): Observable<T>{
     let observable$ = new Observable<T>;
     if (credentials){
       observable$ = this.http.post<T>(`${environment.api_url}/${url}`, request)
@@ -46,7 +46,7 @@ export class HttpService {
     );
   }
 
-  put<T>(url:string, request: any, credentials=true): Observable<T>{
+  put<T>(url:string, request: object, credentials=true): Observable<T>{
     let observable$ = new Observable<T>;
     if (credentials){
       observable$ = this.http.put<T>(`${environment.api_url}/${url}`, request)
@@ -60,7 +60,7 @@ export class HttpService {
     );
   }
 
-  patch<T>(url:string, request: any, credentials=true): Observable<T>{
+  patch<T>(url:string, request: object, credentials=true): Observable<T>{
     let observable$ = new Observable<T>;
     if (credentials){
       observable$ = this.http.patch<T>(`${environment.api_url}/${url}`, request)

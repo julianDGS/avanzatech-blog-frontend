@@ -1,6 +1,6 @@
 <mat-card class="p-5 w-7 lg:w-auto mx-auto">
     <mat-card-header class="mb-4">
-        <mat-card-title>{{ login ? 'Login' :'Sign Up'}}</mat-card-title>
+        <mat-card-title>{{ login ? 'Login' :'User Registration'}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
@@ -29,16 +29,36 @@
                     <mat-form-field>
                         <mat-label>Name</mat-label>
                         <input matInput
+                            type="text"
                             formControlName="name"
                         >
+                        @if (authForm.controls['name'].touched && authForm.controls['name'].invalid) {
+                            <mat-error>
+                                @if (authForm.controls['name'].hasError('required')) {
+                                    <span>This field is mandatory.</span>
+                                }@else if (authForm.controls['name'].hasError('minlength')) {
+                                    <span>The name should contain at least {{authForm.controls['name'].errors!['minlength'].requiredLength}} characters.</span>
+                                }
+                            </mat-error>
+                        }
                     </mat-form-field>
                 </div>
                 <div class="field">
                     <mat-form-field>
                         <mat-label>Last Name</mat-label>
                         <input matInput
+                            type="text"
                             formControlName="last_name"
                         >
+                        @if (authForm.controls['last_name'].touched && authForm.controls['last_name'].invalid) {
+                            <mat-error>
+                                @if (authForm.controls['last_name'].hasError('required')) {
+                                    <span>This field is mandatory.</span>
+                                }@else if (authForm.controls['last_name'].hasError('minlength')) {
+                                    <span>The last name should contain at least {{authForm.controls['last_name'].errors!['minlength'].requiredLength}} characters.</span>
+                                }
+                            </mat-error>
+                        }
                     </mat-form-field>
                 </div>
             }
@@ -52,6 +72,15 @@
                     <button mat-icon-button matSuffix (click)="changeHide()" type="button">
                         <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
+                    @if (authForm.controls['password'].touched && authForm.controls['password'].invalid) {
+                        <mat-error>
+                            @if (authForm.controls['password'].hasError('required')) {
+                                <span>This field is mandatory.</span>
+                            }@else if (authForm.controls['password'].hasError('minlength')) {
+                                <span>The last name should contain at least {{authForm.controls['password'].errors!['minlength'].requiredLength}} characters.</span>
+                            }
+                        </mat-error>
+                    }
                 </mat-form-field>
             </div>
             @if (!login) {
@@ -65,17 +94,39 @@
                         <button mat-icon-button matSuffix (click)="changeHide(true)" type="button">
                             <mat-icon>{{hideConfirm() ? 'visibility_off' : 'visibility'}}</mat-icon>
                         </button>
+                        @if (authForm.controls['confirm_password'].touched && authForm.controls['confirm_password'].invalid) {
+                            <mat-error>
+                                @if (authForm.controls['confirm_password'].hasError('required')) {
+                                    <span>This field is mandatory.</span>
+                                }@else if (authForm.controls['confirm_password'].hasError('minlength')) {
+                                    <span>The last name should contain at least {{authForm.controls['confirm_password'].errors!['minlength'].requiredLength}} characters.</span>
+                                }@else if (authForm.controls['confirm_password'].hasError('matcherror')) {
+                                    <span>Passwords do not match</span>
+                                }
+                            </mat-error>
+                        }
                     </mat-form-field>
                 </div>
             }
-            <div class="flex justify-content-end">
+            <div class="flex justify-content-between">
+                @if (login) {
+                    <span class="align-items-center">
+                        Don't have account?
+                        <a mat-button routerLink="/auth/register">Sign Up</a>
+                    </span>
+                } @else {
+                    <span class="align-items-center">
+                        Have an account?
+                        <a mat-button routerLink="/auth">Login</a>
+                    </span>
+                }
                 <button mat-flat-button color="primary" type="submit" [disabled]="authForm.invalid">
                     @if (login) {
                         <mat-icon>login</mat-icon>
                     }@else {
                         <mat-icon>person_add</mat-icon>
                     }
-                    {{login ? 'Login' : 'Sign Up'}}
+                    {{login ? 'Login' : 'Register'}}
                 </button>
             </div>
         </form>
