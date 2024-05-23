@@ -1,11 +1,14 @@
-export default [
+import { Routes } from '@angular/router';
+
+const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./principal.component'),
-    // children: [
-    //   { path: '', loadComponent: () => import('./pages/home/home.component').then(c => c.HomeComponent) },
-    //   { path: 'login', loadComponent: () => import('./pages/auth/login/login.component').then(c => c.LoginComponent) },
-    //   { path: 'register', loadComponent: () => import('./pages/auth/register/register.component').then(c => c.RegisterComponent) }
-    // ]
+    children: [
+      { path: '', redirectTo: 'list', pathMatch: 'full' },
+      { path: 'list', loadComponent: () => import('./posts/post-list/post-list.component').then(c => c.PostListComponent) },
+    ]
   }
 ];
+
+export default routes;
