@@ -5,6 +5,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
+import { StorageService } from '../../services/util/storage.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-topbar',
@@ -19,6 +21,7 @@ export class TopbarComponent {
 
   constructor(
     private authSV: AuthService,
+    private storageSV: StorageService,
     private router: Router
   ){}
 
@@ -27,9 +30,12 @@ export class TopbarComponent {
   }
 
   onLogout(){
-    this.authSV.logout().subscribe(
-      (resp) => {
-        console.log(resp);
+    this.authSV.logout()
+    .pipe(
+      tap(() => this.storageSV.delete('logged-user'))
+    )
+    .subscribe(
+      () => {
         this.router.navigate(['auth'])
       
     })

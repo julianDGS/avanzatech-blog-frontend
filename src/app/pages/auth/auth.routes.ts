@@ -1,4 +1,6 @@
-export default [
+import { Routes } from '@angular/router'
+
+const routes: Routes = [
     {
         path: '',
         loadComponent: () => import('./auth.component'),
@@ -18,5 +20,6 @@ export default [
             }
         ]
     }
-           
 ]
+
+export default routes;
