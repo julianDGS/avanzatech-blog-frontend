@@ -1,1 +1,37 @@
-<p>post-list works!</p>
+<mat-card class="w-10 lg:w-7 mx-auto mt-4">
+    <mat-card-content class="px-7">
+        @for (post of posts(); track $index) {
+            <mat-card class="mb-4 mt-3 p-3">
+                <mat-card-header class="mb-5">
+                    <div class="flex justify-content-between w-full">
+                        <div class="flex align-items-center">
+                            <mat-card-title>{{post.title}}</mat-card-title>
+                        </div>
+                        <div class="flex align-items-center gap-3">
+                            <mat-chip>{{post.author.team}}</mat-chip>
+                            <span> <strong>{{post.author.nickname}}</strong></span>
+                            <span>{{post.createdAt}}</span>
+                        </div>
+                    </div>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{post.excerpt}}</p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <div class="flex justify-content-between w-full mx-2">
+                        <div class="flex align-items-center gap-2">
+                            <button mat-button>{{post.likes}} Likes</button>
+                            <button mat-button>{{post.comments}} Comments</button>
+                        </div>
+                        <div class="flex align-items-center gap-2">
+                            <button mat-icon-button><mat-icon>favorite</mat-icon></button>
+                            <button mat-icon-button><mat-icon>chat</mat-icon></button>
+                            <button mat-icon-button><mat-icon>edit</mat-icon></button>
+                            <button mat-icon-button><mat-icon>delete</mat-icon></button>
+                        </div>
+                    </div>
+                </mat-card-actions>
+            </mat-card>
+        }
+    </mat-card-content>
+</mat-card>
