@@ -1,0 +1,21 @@
+<mat-toolbar>
+    <div class="flex justify-content-end w-full gap-5">
+        <div class="flex align-items-center">
+            <span class="text-sm font-light">{{currentFirstItem()}} - {{currentLastItem}} of {{totalItems}}</span>
+        </div>
+        <div class="flex align-items-center gap-1">
+            <button mat-icon-button (click)="firstPage()" [disabled]="currentPage() === 1">
+                <mat-icon>first_page</mat-icon>
+            </button>
+            <button mat-icon-button (click)="previousPage()" [disabled]="currentPage() === 1">
+                <mat-icon class="text-base flex align-items-center justify-content-center">arrow_back_ios</mat-icon>
+            </button>
+            <button mat-icon-button (click)="nextPage()" [disabled]="currentPage() === totalPages">
+                <mat-icon class="text-base flex align-items-center justify-content-center">arrow_forward_ios</mat-icon>
+            </button>
+            <button mat-icon-button (click)="lastPage()" [disabled]="currentPage() === totalPages">
+                <mat-icon>last_page</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-toolbar>

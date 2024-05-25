@@ -1,6 +1,6 @@
 <mat-card class="w-10 lg:w-7 mx-auto mt-4">
     <mat-card-content class="px-7">
-        @for (post of posts(); track $index) {
+        @for (post of paginatedObject()?.results; track $index) {
             <mat-card class="mb-4 mt-3 p-3">
                 <mat-card-header class="mb-5">
                     <div class="flex justify-content-between w-full">
@@ -34,4 +34,19 @@
             </mat-card>
         }
     </mat-card-content>
+    <!-- <mat-paginator #paginator
+        (page)="handlePageEvent($event)"
+        [length]="length"
+        [pageSize]="pageSize"
+        [showFirstLastButtons]="showFirstLastButtons"
+        [hidePageSize]="hidePageSize"
+        [pageIndex]="pageIndex"
+    >
+</mat-paginator> --->
+    <app-paginator
+        [itemsPerPage]="itemsPerPage"
+        [totalPages]="paginatedObject()?.total_pages || 0"
+        [totalItems]="paginatedObject()?.total_count || 0"
+        (onChangeClick)="changePage($event)"
+    />
 </mat-card>

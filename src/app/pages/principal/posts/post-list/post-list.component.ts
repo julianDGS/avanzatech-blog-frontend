@@ -5,33 +5,50 @@ import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { Posts } from '../../../../models/post/post.model';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
+
+import { PaginatedPost } from '../../../../models/post/post.model';
+import { PaginatorComponent } from '../../../../components/paginator/paginator.component';
 
 
 @Component({
   selector: 'app-post-list',
   standalone: true,
-  imports: [MatCardModule, MatChipsModule, MatButtonModule, MatIconModule],
+  imports: [
+    MatCardModule, 
+    MatChipsModule, 
+    MatButtonModule, 
+    MatIconModule, 
+    MatPaginatorModule,
+    PaginatorComponent
+  ],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.scss'
 })
 export class PostListComponent implements OnInit {
   
-  page = signal(0);
-  posts = signal<Posts[]>([])
+  paginatedObject = signal<PaginatedPost | null>(null)
+  itemsPerPage = 10;
 
   constructor(
     private postSV: PostService
   ){}
 
   ngOnInit(): void {
-    let page = '';
-    if(this.page() !== 0){
-      page = String(this.page());
-    }
+    this.listPosts();
+  }
+
+  private listPosts(page='1'){
     this.postSV.listPosts(page).subscribe((resp) => {
-      this.posts.set(resp.results);
+      console.log(resp)
+      this.paginatedObject.set(resp);
     })
+  }
+
+  changePage(page: number){
+    const pageStr = String(page)
+    this.listPosts(pageStr);
   }
 
 }
