@@ -6,10 +6,10 @@ export interface PaginatedPost {
     total_count:  number;
     current_page: number;
     total_pages:  number;
-    results:      Posts[];
+    results:      Post[];
 }
 
-export interface Posts {
+export interface Post {
     id:          number;
     createdAt:   Date,
     title:       string;

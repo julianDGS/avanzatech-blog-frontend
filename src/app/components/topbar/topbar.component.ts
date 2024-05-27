@@ -50,7 +50,7 @@ export class TopbarComponent implements OnInit {
         () => {
           this.toastr.success('Successful logout', 'Success')
           this.loggedUser.set(null)
-          this.router.navigate(['/'])
+          this.router.navigate(['/auth']).then(() => this.router.navigate(['/']))
       })
     } else {
       this.router.navigate(['auth'])
