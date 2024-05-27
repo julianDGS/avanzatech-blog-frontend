@@ -17,7 +17,13 @@
     <mat-card-actions>
         <div class="flex justify-content-between w-full mx-2">
             <div class="flex align-items-center gap-2">
-                <button mat-button cdkOverlayOrigin #trigger="cdkOverlayOrigin" type="button" (click)="openLikes()">{{post.likes}} Likes</button>
+                <button mat-button 
+                    cdkOverlayOrigin 
+                    #trigger="cdkOverlayOrigin" 
+                    type="button" (click)="openLikes()"
+                >
+                    {{post.likes}} Likes
+                </button>
                 <button mat-button>{{post.comments}} Comments</button>
             </div>
             <div class="flex align-items-center gap-2">
@@ -34,10 +40,13 @@
 
 <ng-template
     cdkConnectedOverlay
-    cdkConnectedOverlayWidth="60%"
+    [cdkConnectedOverlayWidth]="'20%'"
     [cdkConnectedOverlayOrigin]="trigger"
     [cdkConnectedOverlayOpen]="isOpenLikes()"
     (overlayOutsideClick)="isOpenLikes.set(false)"
     >
-    <app-like-modal></app-like-modal>
+    <app-like-modal
+        [paginatedLike]="paginatedLike"
+        (pageChanged)="onLikePageChanged($event)"
+    ></app-like-modal>
 </ng-template>
