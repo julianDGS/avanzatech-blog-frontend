@@ -19,7 +19,9 @@ export class PaginatorComponent  {
   @Input({required: true}) itemsPerPage!: number;
   @Input({required: true}) totalPages!: number;
   @Input() totalItems = 0;
+  @Input() isPostPaginator = true;
   @Output() onChangeClick = new EventEmitter<number>()
+
 
   get currentLastItem(){
     if(this.currentPage() === this.totalPages){
