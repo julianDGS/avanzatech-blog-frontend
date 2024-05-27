@@ -1,1 +1,17 @@
-<p>like-modal works!</p>
+<mat-card class="mb-4 mt-3 like-card">
+    <mat-card-content>
+        @for (like of paginatedLike?.results; track $index) {
+            <p class="mb-0">{{like.user.nickname}}</p>
+        }
+    </mat-card-content>
+    @if (paginatedLike?.results && paginatedLike?.results!.length > 0) {
+        <app-paginator
+            [isPostPaginator]="false"
+            [itemsPerPage]="itemsPerPage"
+            [totalPages]="paginatedLike?.total_pages || 0"
+            [totalItems]="paginatedLike?.total_count || 0"
+            (onChangeClick)="changePage($event)"
+        />
+    }
+</mat-card>
+
