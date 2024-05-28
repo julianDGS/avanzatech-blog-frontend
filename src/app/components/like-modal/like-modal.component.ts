@@ -14,7 +14,7 @@ import {MatCardModule} from '@angular/material/card';
 })
 export class LikeModalComponent {
 
-  itemsPerPage = 20;
+  itemsPerPage = 15;
 
   @Input({required: true}) paginatedLike?: PaginatedLike;
   @Output() pageChanged = new EventEmitter<string>();

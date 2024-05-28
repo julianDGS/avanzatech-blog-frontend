@@ -1,0 +1,47 @@
+<mat-card class="w-full lg:w-11 mx-auto mt-4">
+    <mat-card-content class="px-4">
+        <div class="block">
+            <app-post
+                [isDetail]="true"
+                [isLogged]="true"
+                [post]="post()!"
+            />
+        </div>
+        <div class="ml-2">
+            <h2>Comments</h2>
+        </div>
+        <div class="block">
+            @for (comment of paginatedComments()?.results; track $index) {
+                <mat-card class="mb-1">
+                    <mat-card-header class="mb-2">
+                        <div class="flex justify-content-between w-full">
+                            <div class="flex align-items-center">
+                                <mat-card-title>{{comment.user.nickname}}</mat-card-title>
+                            </div>
+                            <div class="flex align-items-center gap-3">
+                                <span>{{comment.created_at}}</span>
+                            </div>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                        {{comment.comment}}
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <div class="flex justify-content-end w-full">
+                            <button mat-icon-button><mat-icon>delete</mat-icon></button>
+                        </div>
+                    </mat-card-actions>
+                </mat-card>
+            }
+            <div class="-mt-1">
+                <app-paginator
+                    [itemsPerPage]="itemsPerPage"
+                    [totalPages]="paginatedComments()?.total_pages || 0"
+                    [totalItems]="paginatedComments()?.total_count || 0"
+                    (onChangeClick)="changePage($event)"
+                />
+            </div>
+        </div>
+    </mat-card-content>
+
+</mat-card>

@@ -8,6 +8,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { LikeModalComponent } from '../like-modal/like-modal.component';
 import { LikeService } from '../../services/like/like.service';
 import { PaginatedLike } from '../../models/like/like.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-post',
@@ -18,6 +19,7 @@ import { PaginatedLike } from '../../models/like/like.model';
     MatButtonModule, 
     MatIconModule,
     OverlayModule,
+    RouterLink,
     LikeModalComponent
   ],
   templateUrl: './post.component.html',
@@ -29,8 +31,9 @@ export class PostComponent {
   isOpenComments = signal(false);
   paginatedLike?: PaginatedLike;
 
-  @Input({required: true}) post!: Post; 
+  @Input({required: true}) post?: Post; 
   @Input({required: true}) isLogged!: boolean;
+  @Input() isDetail = false;
 
   constructor(
     private likeSV: LikeService
@@ -50,7 +53,7 @@ export class PostComponent {
   }
 
   private getLikes(page='1'){
-    this.likeSV.getLikes(page, String(this.post.id)).subscribe( resp => {
+    this.likeSV.getLikes(page, String(this.post?.id)).subscribe( resp => {
       this.paginatedLike = resp
     })
   }

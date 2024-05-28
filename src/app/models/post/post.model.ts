@@ -1,4 +1,5 @@
 import { User } from "../user/user.model";
+import { Permissions } from "./permission.model";
 
 export interface PaginatedPost {
     next:         string;
@@ -19,6 +20,7 @@ export interface Post {
     permissions: Permissions;
     likes:       number;
     comments:    number;
+    post_liked?: boolean;
 }
 
 
