@@ -1,0 +1,11 @@
+<div class="flex justify-content-start align-items-center gap-3 mt-4 mx-3 dialog-header">
+    <mat-icon>warning</mat-icon>
+    <h2 class="mb-0"> Delete {{data.item}}</h2>
+</div>
+<mat-dialog-content>
+  Would you like to delete this {{data.item}}?
+</mat-dialog-content>
+<mat-dialog-actions class="flex justify-content-end pr-4 pb-3">
+  <button mat-button [mat-dialog-close]="false">No</button>
+  <button type="button" mat-flat-button cdkFocusInitial [mat-dialog-close]="true">Yes</button>
+</mat-dialog-actions>

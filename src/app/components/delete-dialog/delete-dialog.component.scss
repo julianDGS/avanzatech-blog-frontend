@@ -1,0 +1,9 @@
+.dialog-header {
+    color: var(--mat-app-text-color);
+}
+
+.dialog-header {
+    & mat-icon{
+        color: rgb(153, 119, 26);
+    }
+}
