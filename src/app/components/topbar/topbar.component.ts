@@ -4,7 +4,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { AuthService } from '../../services/auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { StorageService } from '../../services/util/storage.service';
 import { tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [MatToolbarModule, MatIconModule, MatButtonModule],
+  imports: [MatToolbarModule, MatIconModule, MatButtonModule, RouterLink],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss'
 })
@@ -34,7 +34,6 @@ export class TopbarComponent implements OnInit {
         this.loggedUser.set(resp);
       }
     })
-    console.log(this.loggedUser())
   }
 
   toggleTheme(){

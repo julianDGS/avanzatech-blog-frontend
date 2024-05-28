@@ -7,8 +7,25 @@
                 [post]="post()!"
             />
         </div>
+        <div class="mt-1 mb-1">
+            <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+                <div class="flex justify-content-between">
+                    <div class="w-full mr-3">
+                        <mat-form-field class="w-full">
+                            <mat-label>New Comment</mat-label>
+                            <textarea matInput formControlName="comment"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex justify-content-end ml-2">
+                        <button mat-fab color="primary" type="submit" [disabled]="commentForm.invalid">
+                            <mat-icon>send</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="ml-2">
-            <h2>Comments</h2>
+            <h2 class="mb-1">Comments</h2>
         </div>
         <div class="block">
             @for (comment of paginatedComments()?.results; track $index) {
@@ -19,7 +36,7 @@
                                 <mat-card-title>{{comment.user.nickname}}</mat-card-title>
                             </div>
                             <div class="flex align-items-center gap-3">
-                                <span>{{comment.created_at}}</span>
+                                <span>{{comment.created_at | date}}</span>
                             </div>
                         </div>
                     </mat-card-header>
@@ -35,13 +52,13 @@
             }
             <div class="-mt-1">
                 <app-paginator
-                    [itemsPerPage]="itemsPerPage"
-                    [totalPages]="paginatedComments()?.total_pages || 0"
-                    [totalItems]="paginatedComments()?.total_count || 0"
-                    (onChangeClick)="changePage($event)"
+                [itemsPerPage]="itemsPerPage"
+                [totalPages]="paginatedComments()?.total_pages || 0"
+                [totalItems]="paginatedComments()?.total_count || 0"
+                (onChangeClick)="changePage($event)"
                 />
             </div>
+            
         </div>
     </mat-card-content>
-
 </mat-card>
