@@ -133,7 +133,8 @@ export class PostDetailComponent implements OnInit {
       enterAnimationDuration,
       exitAnimationDuration,
       data: {
-        item: 'comment'
+        title: 'Comment',
+        item: 'this comment'
       }
     });
 

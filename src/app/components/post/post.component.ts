@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -10,6 +10,9 @@ import { LikeService } from '../../services/like/like.service';
 import { PaginatedLike } from '../../models/like/like.model';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-post',
@@ -23,7 +26,9 @@ import { CommonModule } from '@angular/common';
     MatIconModule,
     OverlayModule,
     RouterLink,
-    LikeModalComponent
+    MatDialogModule,
+    LikeModalComponent,
+    DeleteDialogComponent
   ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss'
@@ -38,8 +43,11 @@ export class PostComponent {
   @Input({required: true}) isLogged!: boolean;
   @Input() isDetail = false;
 
+  @Output() postDeleted = new EventEmitter<Post>()
+
   constructor(
-    private likeSV: LikeService
+    private likeSV: LikeService,
+    private dialog: MatDialog
   ){}
 
   openLikes(){
@@ -59,6 +67,24 @@ export class PostComponent {
     this.likeSV.getLikes(page, String(this.post?.id)).subscribe( resp => {
       this.paginatedLike = resp
     })
+  }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        title: 'Post',
+        item: this.post?.title
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.postDeleted.emit(this.post);
+      }
+    });
   }
 
 

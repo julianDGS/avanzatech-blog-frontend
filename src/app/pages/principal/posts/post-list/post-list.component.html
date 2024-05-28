@@ -4,6 +4,7 @@
            <app-post
                 [isLogged]="isLogged()"
                 [post]="post"
+                (postDeleted)="deletePost($event)"
             >
             </app-post>
         }

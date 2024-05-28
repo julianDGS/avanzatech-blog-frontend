@@ -18,4 +18,8 @@ export class PostService {
   getPost(postId: number){
     return this.http.get<Post>(`post/${postId}`);
   }
+
+  deletePost(postId: number){
+    return this.http.delete(`post/${postId}`)
+  }
 }

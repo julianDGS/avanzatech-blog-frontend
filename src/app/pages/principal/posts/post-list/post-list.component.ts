@@ -3,10 +3,11 @@ import { PostService } from '../../../../services/post/post.service';
 
 import {MatCardModule} from '@angular/material/card';
 
-import { PaginatedPost } from '../../../../models/post/post.model';
+import { PaginatedPost, Post } from '../../../../models/post/post.model';
 import { PaginatorComponent } from '../../../../components/paginator/paginator.component';
 import { StorageService } from '../../../../services/util/storage.service';
 import { PostComponent } from '../../../../components/post/post.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class PostListComponent implements OnInit {
 
   constructor(
     private postSV: PostService,
+    private toastrSV: ToastrService,
     private storageSV: StorageService
   ){}
 
@@ -52,6 +54,17 @@ export class PostListComponent implements OnInit {
   changePage(page: number){
     const pageStr = String(page)
     this.listPosts(pageStr);
+  }
+
+  deletePost(event: Post){
+    if(event){
+      this.postSV.deletePost(event.id).subscribe(() => {
+        this.toastrSV.success(`${event.title} deleted succesfully`, 'Success', {
+          progressBar: true
+        })
+        this.listPosts()
+      })
+    }
   }
 
 }

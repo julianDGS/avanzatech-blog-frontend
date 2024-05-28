@@ -25,6 +25,6 @@ export class DeleteDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<DeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {item: string},
+    @Inject(MAT_DIALOG_DATA) public data: {title: string, item: string},
   ) {}
 }
