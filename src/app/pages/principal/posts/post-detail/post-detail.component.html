@@ -43,11 +43,13 @@
                     <mat-card-content>
                         {{comment.comment}}
                     </mat-card-content>
-                    <mat-card-actions>
-                        <div class="flex justify-content-end w-full">
-                            <button mat-icon-button><mat-icon>delete</mat-icon></button>
-                        </div>
-                    </mat-card-actions>
+                    @if (comment.user.id === userId) {
+                        <mat-card-actions>
+                            <div class="flex justify-content-end w-full">
+                                <button mat-icon-button (click)="openDialog('0ms', '0ms', comment.id)"><mat-icon>delete</mat-icon></button>
+                            </div>
+                        </mat-card-actions>
+                    }
                 </mat-card>
             }
             <div class="-mt-1">

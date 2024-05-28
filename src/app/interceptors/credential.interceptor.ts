@@ -9,7 +9,7 @@ export function addCredentials() {
 
 export const credentialInterceptor: HttpInterceptorFn = (req, next) => {
   if(req.context.get(ADD_CREDENTIALS)){
-    if(['POST', 'PUT', 'PATCH'].includes(req.method)){
+    if(['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)){
       const csrf = getCookie('csrftoken')
       let headers = req.headers
       if (csrf){

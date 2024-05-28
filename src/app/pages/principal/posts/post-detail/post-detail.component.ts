@@ -15,6 +15,12 @@ import {MatInputModule} from '@angular/material/input';
 import { PaginatorComponent } from '../../../../components/paginator/paginator.component';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { StorageService } from '../../../../services/util/storage.service';
+import {MatDialogModule} from '@angular/material/dialog';
+
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
+
 
 @Component({
   selector: 'app-post-detail',
@@ -28,8 +34,10 @@ import { ToastrService } from 'ngx-toastr';
       MatButtonModule,
       MatFormFieldModule,
       MatInputModule,
+      MatDialogModule,
       
       PostComponent,
+      DeleteDialogComponent,
       PaginatorComponent
     ],
   templateUrl: './post-detail.component.html',
@@ -41,6 +49,7 @@ export class PostDetailComponent implements OnInit {
   commentForm!: FormGroup;
   post = signal<Post | null>(null)
   paginatedComments = signal<PaginatedComment | null>(null)
+  userId?: number;
 
   @ViewChild(FormGroupDirective) formDir!: FormGroupDirective;
 
@@ -49,10 +58,11 @@ export class PostDetailComponent implements OnInit {
     private postSV: PostService,
     private commentSV: CommentService,
     private fb: FormBuilder,
-    private toastrSV: ToastrService
+    private toastrSV: ToastrService,
+    private storageSV: StorageService,
+    private dialog: MatDialog
   ){
     this.buildForm();
-    console.log(this.commentForm)
   }
 
   ngOnInit(): void {
@@ -67,6 +77,9 @@ export class PostDetailComponent implements OnInit {
       .subscribe( ([respPost, respComment]) => {
         this.post.set(respPost)
         this.paginatedComments.set(respComment)
+      })
+      this.storageSV.get('logged-user').then(resp => {
+        this.userId = resp.id
       })
   }
 
@@ -84,13 +97,21 @@ export class PostDetailComponent implements OnInit {
     }
   }
 
+  private deleteComment(id: number){
+    this.commentSV.deleteComment(id).subscribe(() => {
+      this.toastrSV.success('Comment deleted succesfully', 'Success', {
+        progressBar: true
+      })
+      this.listComments();
+    })
+  }
+
   changePage(page: number){
     const pageStr = String(page)
     this.listComments(pageStr);
   }
 
   onSubmit(){
-    console.log(this.commentForm.value)
     if(!this.commentForm.pristine){
       let request: {post_id: number, comment: string} = {
         post_id: this.post()!.id,
@@ -102,11 +123,26 @@ export class PostDetailComponent implements OnInit {
         })
         this.listComments();
         this.formDir.resetForm();
-        console.log(this.commentForm)
       })
     }
   }
 
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, id: number): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        item: 'comment'
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.deleteComment(id);
+      }
+    });
+  }
 
+ 
 }
