@@ -45,7 +45,6 @@ export class PostListComponent implements OnInit {
 
   private listPosts(page='1'){
     this.postSV.listPosts(page).subscribe((resp) => {
-      console.log(resp)
       this.paginatedObject.set(resp);
     })
   }

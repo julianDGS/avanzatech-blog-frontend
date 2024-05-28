@@ -31,7 +31,7 @@ export class TopbarComponent implements OnInit {
   ngOnInit(): void {
     this.storageSV.get('logged-user').then(resp => {
       if(resp && resp !== null){
-        this.loggedUser.set(resp);
+        this.loggedUser.set(resp.nickname);
       }
     })
   }

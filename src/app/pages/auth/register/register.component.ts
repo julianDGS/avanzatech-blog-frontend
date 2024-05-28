@@ -22,8 +22,7 @@ export class RegisterComponent {
 
   registerUser(request: AuthRequest){
     this.authSV.register(request).subscribe({
-      next: (resp) => {
-        console.log(resp)
+      next: () => {
         this.messageSV.success('User created', 'Success', {
           progressBar: true
         })

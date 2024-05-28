@@ -11,7 +11,7 @@ export class StorageService {
     return new Promise(resolve => {
       const val = localStorage.getItem(key);
       if (val && val !== null) {
-        resolve(val);
+        resolve(JSON.parse(val));
       } else {
         resolve(null)
       }
@@ -19,7 +19,7 @@ export class StorageService {
   }
 
   set(key: string, value: any) {
-    localStorage.setItem(key, value);
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
   delete(key: string) {

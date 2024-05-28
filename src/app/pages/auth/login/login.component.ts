@@ -24,7 +24,7 @@ export class LoginComponent {
   loginUser(request: AuthRequest){
     this.authSV.login(request)
     .pipe(
-      tap(resp => this.storageSV.set('logged-user', resp.user.name))
+      tap(resp => this.storageSV.set('logged-user', {id: resp.user.id, nickname: resp.user.name}))
     )
     .subscribe({
       next: (resp) => {
