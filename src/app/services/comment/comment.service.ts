@@ -16,4 +16,8 @@ export class CommentService {
     const url = `comment/?page=${pageNumber ? pageNumber : ''}&post=${post_id}&user=${user_id}`
     return this.http.get<PaginatedComment>(url, false)
   }
+
+  createComment(request: {post_id: number, comment:string}){
+    return this.http.post<Comment>('comment/', request)
+  }
 }
