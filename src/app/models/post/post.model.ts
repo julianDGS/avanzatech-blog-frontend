@@ -21,6 +21,7 @@ export interface Post {
     likes:       number;
     comments:    number;
     post_liked?: boolean;
+    can_edit?:   boolean;
 }
 
 

@@ -4,6 +4,7 @@
            <app-post
                 [isLogged]="isLogged()"
                 [post]="post"
+                [canEdit]="post.can_edit!"
                 (postDeleted)="deletePost($event)"
             >
             </app-post>

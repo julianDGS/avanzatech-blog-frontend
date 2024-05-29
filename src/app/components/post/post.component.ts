@@ -42,6 +42,8 @@ export class PostComponent {
   @Input({required: true}) post?: Post; 
   @Input({required: true}) isLogged!: boolean;
   @Input() isDetail = false;
+  @Input() canEdit = false;
+
 
   @Output() postDeleted = new EventEmitter<Post>()
 

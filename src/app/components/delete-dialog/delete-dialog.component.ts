@@ -21,7 +21,6 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './delete-dialog.component.scss'
 })
 export class DeleteDialogComponent {
-  
 
   constructor(
     public dialogRef: MatDialogRef<DeleteDialogComponent>,

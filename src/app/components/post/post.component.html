@@ -5,7 +5,7 @@
                 <mat-card-title>{{post?.title}}</mat-card-title>
             </div>
             <div class="flex align-items-center gap-3">
-                <mat-chip>{{post?.author?.team}}</mat-chip>
+                <mat-chip>{{post?.author?.team?.name}}</mat-chip>
                 <span> <strong>{{post?.author?.nickname}}</strong></span>
                 <span>{{post?.createdAt | date}}</span>
             </div>
@@ -42,8 +42,10 @@
                     <button mat-icon-button [color]="post?.post_liked ? 'warn' : ''"><mat-icon>favorite</mat-icon></button>
                     <button mat-icon-button><mat-icon>chat</mat-icon></button>
                 }
-                <button mat-icon-button><mat-icon>edit</mat-icon></button>
-                <button mat-icon-button (click)="openDialog('0ms', '0ms')"><mat-icon>delete</mat-icon></button>
+                @if (canEdit) {
+                    <button mat-icon-button><mat-icon>edit</mat-icon></button>
+                    <button mat-icon-button (click)="openDialog('0ms', '0ms')"><mat-icon>delete</mat-icon></button>
+                }
             </div>
         </div>
     </mat-card-actions>
