@@ -1,4 +1,4 @@
-<mat-toolbar [class.theme]="!dark_mode">
+<mat-toolbar [class.theme]="!dark_mode()">
     <div class="flex justify-content-center md:justify-content-between w-full">
         <div class="hidden md:flex align-items-center">
             <a routerLink="/">
@@ -8,9 +8,9 @@
         <div class="flex align-items-center gap-3">
             <button mat-icon-button (click)="toggleTheme()">
                 @if (dark_mode()) {
-                    <mat-icon>dark_mode</mat-icon>
-                } @else {
                     <mat-icon>light_mode</mat-icon>
+                } @else {
+                    <mat-icon>dark_mode</mat-icon>
                 }
             </button>
             <span>{{loggedUser() !== null ? 'Welcome, ' + loggedUser() : ''}}</span>
