@@ -4,3 +4,8 @@ export interface Permissions {
     team:   string;
     author: string;
 }
+
+export interface PermissionResponse {
+    id:   number;
+    name: string;
+}
