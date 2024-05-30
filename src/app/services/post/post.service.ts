@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../util/http.service';
 import { PaginatedPost, Post } from '../../models/post/post.model';
+import { PostRequest, PostResponse } from '../../models/post/post-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class PostService {
   }
 
   deletePost(postId: number){
-    return this.http.delete(`post/${postId}`)
+    return this.http.delete(`post/${postId}`);
+  }
+
+  createPost(request: PostRequest){
+    return this.http.post<PostResponse>('post/', request);
   }
 }
