@@ -37,7 +37,6 @@ import { DeleteDialogComponent } from '../../../../components/delete-dialog/dele
       MatDialogModule,
       
       PostComponent,
-      DeleteDialogComponent,
       PaginatorComponent
     ],
   templateUrl: './post-detail.component.html',

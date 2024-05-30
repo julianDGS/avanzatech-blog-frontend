@@ -8,6 +8,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'list', pathMatch: 'full' },
       { path: 'list', loadComponent: () => import('./posts/post-list/post-list.component').then(c => c.PostListComponent) },
       { path: 'detail/:id', loadComponent: () => import('./posts/post-detail/post-detail.component').then(c => c.PostDetailComponent) },
+      { path: 'create', loadComponent: () => import('./posts/post-create/post-create.component').then(c => c.PostCreateComponent) },
     ]
   }
 ];

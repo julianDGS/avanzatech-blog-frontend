@@ -1,4 +1,8 @@
-<div class="min-h-screen pb-4">
-    <app-topbar></app-topbar>
-    <router-outlet/>
+<div class="flex min-h-screen pb-4">
+    <div class="block">
+        <app-topbar class="z-5 fixed w-full"></app-topbar>
+    </div>
+    <div class="block w-full pt-7">
+        <router-outlet/>
+    </div>
 </div>
