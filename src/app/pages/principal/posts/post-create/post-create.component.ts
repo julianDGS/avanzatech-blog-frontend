@@ -1,17 +1,20 @@
 import { Component, OnInit, ViewChild, signal } from '@angular/core';
-import { PostService } from '../../../../services/post/post.service';
 import { FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
+import { finalize, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
+
+import { PostService } from '../../../../services/post/post.service';
 import { PermissionService } from '../../../../services/post/permission.service';
+import { PostRequest } from '../../../../models/post/post-request.model';
 import { PermissionResponse } from '../../../../models/post/permission.model';
-import { switchMap } from 'rxjs';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import { PostRequest } from '../../../../models/post/post-request.model';
-import { Router } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-post-create',
@@ -34,12 +37,15 @@ export class PostCreateComponent implements OnInit{
   postForm!: FormGroup;
   permissions = signal<PermissionResponse[]>([]);
   categories = signal<PermissionResponse[]>([]); 
+  readId: number = 0;
+  editId: number = 0;
 
   @ViewChild(FormGroupDirective) formDir!: FormGroupDirective;
 
   constructor(
     private postSV: PostService,
     private permissionSV: PermissionService,
+    private toastrSV: ToastrService,
     private fb: FormBuilder,
     private router: Router
   ){
@@ -49,52 +55,49 @@ export class PostCreateComponent implements OnInit{
   ngOnInit(): void {
     this.permissionSV.getCategories().pipe(
       switchMap(resp => {
-        this.categories.set(resp) //.set(resp.sort((a, b) => b.id - a.id))
+        this.categories.set(resp)
         return this.permissionSV.getPermissions()
       })
     ).subscribe(resp => {
       this.permissions.set(resp)
-      const ids = this.changeNames();
-      this.loadCategories(ids);
+      this.changeNames();
+      this.loadDefaultCategories();
     })
   }
 
   private changeNames(){
-    let read = 0;
-    let edit = 0;
     for(let permission of this.permissions()){
       if(permission.name === 'read'){
-        read = permission.id;
+        this.readId = permission.id;
         permission.name = 'read only'
       } else if (permission.name === 'edit'){
-        edit = permission.id;
+        this.editId = permission.id;
         permission.name = 'read & write'
       }
     }
-    return {read, edit}
   }
 
-  private loadCategories(ids: {read: number, edit: number}){
+  private loadDefaultCategories(){
     for (let category of this.categories()){
       let permId;
       switch(category.name){
         case 'author':
-          permId = ids.edit;
+          permId = this.editId;
           category.name = 'Owner'
           break;
         case 'team':
-          permId = ids.edit;
+          permId = this.editId;
           category.name = 'Team'
           break;
         case 'auth':
-          permId = ids.read;
+          permId = this.readId;
           category.name = 'Authenticated'
           break;
         case 'public':
-          permId = ids.read;
+          permId = this.readId;
           category.name = 'Public'
           break;
-        }
+      }
       this.addPermission(category.id, permId)
     }
   }
@@ -103,19 +106,28 @@ export class PostCreateComponent implements OnInit{
     if(!this.postForm.pristine){
       this.postForm.enable()
       const request: PostRequest = this.postForm.value
-      console.log(request);
-      this.disableCategories()
+      this.postForm.disable()
+      this.postSV.createPost(request).pipe(
+        finalize(() => {
+          this.postForm.enable()
+          this.disableCategories()
+        })
+      ).subscribe( resp => {
+        this.toastrSV.success(`${resp.title}, created successfully`, 'Success', {
+          progressBar: true
+        })
+        this.resetForm();
+      })
     }
   }
 
   onCancel(){
     this.resetForm()
-    this.router.navigate(['/'])
   }
 
   private resetForm(){
     this.formDir.resetForm();
-    this.disableCategories();
+    this.router.navigate(['/'])
   }
 
   private disableCategories(){

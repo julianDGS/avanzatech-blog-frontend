@@ -89,16 +89,23 @@ export class HttpService {
   }
 
   private handleErrors(err: HttpErrorResponse){
+    if (!environment.prod){
+      console.log(err)
+    }
     let detailError = '';
-    if (err.status === 400){
+    if (err.status === 0){
+      detailError = 'Failed to connect with server'
+    } else if (err.status === 400){
       for (let key in err.error){
         detailError += `${key}: ${err.error[key as string][0]}`
         detailError += '\n';
       }
     } else if (err.error.hasOwnProperty('error')){
         detailError = err.error.error
-    } else {
+    } else if (err.error.hasOwnProperty('detail')){
       detailError = err.error.detail
+    } else {
+      detailError = err.error.message;
     }
     this.toastr.error(detailError, 'Error', {
       timeOut: 10000,

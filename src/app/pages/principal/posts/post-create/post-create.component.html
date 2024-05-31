@@ -1,11 +1,11 @@
-<mat-card class="w-11 lg:w-10 mx-auto mt-4 px-5 py-3">
-    <div class="w-10 mx-auto">
+<mat-card class="w-11 md:w-10 lg:w-7 mx-auto mt-4 px-7 py-3">
+    <div class="w-full mx-auto">
         <mat-card-header class="mb-4">
             <mat-card-title>Post Create</mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-                <div>
+                <div class="mb-2">
                     <mat-form-field class="w-full">
                         <mat-label>Title</mat-label>
                         <input matInput
@@ -14,18 +14,18 @@
                             placeholder="some post title"
                             formControlName="title"
                         >
-                        <!-- @if (authForm.controls['email'].touched && authForm.controls['email'].invalid) {
+                        @if (postForm.controls['title'].touched && postForm.controls['title'].invalid) {
                             <mat-error>
-                                @if (authForm.controls['email'].hasError('required')) {
+                                @if (postForm.controls['title'].hasError('required')) {
                                     <span>This field is mandatory.</span>
-                                }@else if (authForm.controls['email'].hasError('email')) {
-                                    <span>This email is invalid.</span>
+                                }@else if (postForm.controls['title'].hasError('maxlength')) {
+                                    <span>This field should contain less than 100 characters.</span>
                                 }
                             </mat-error>
-                        } -->
+                        }
                     </mat-form-field>
                 </div>
-                <div>
+                <div class="mb-2">
                     <mat-form-field class="w-full">
                         <mat-label>Content</mat-label>
                         <textarea matInput
@@ -33,15 +33,15 @@
                             formControlName="content"
                             rows="4"
                         ></textarea>
-                        <!-- @if (authForm.controls['name'].touched && authForm.controls['name'].invalid) {
+                        @if (postForm.controls['content'].touched && postForm.controls['content'].invalid) {
                             <mat-error>
-                                @if (authForm.controls['name'].hasError('required')) {
+                                @if (postForm.controls['content'].hasError('required')) {
                                     <span>This field is mandatory.</span>
-                                }@else if (authForm.controls['name'].hasError('minlength')) {
-                                    <span>The name should contain at least {{authForm.controls['name'].errors!['minlength'].requiredLength}} characters.</span>
+                                }@else if (postForm.controls['content'].hasError('minlength')) {
+                                    <span>The content should contain at least {{postForm.controls['content'].errors!['minlength'].requiredLength}} characters.</span>
                                 }
                             </mat-error>
-                        } -->
+                        }
                     </mat-form-field>
                 </div>
                 <fieldset class="px-6 pt-4 mb-3">
@@ -68,15 +68,6 @@
                                                     <mat-option [value]="permission.id" panelClass="selected">{{permission.name}}</mat-option>
                                                 }
                                             </mat-select>
-                                            <!-- @if (authForm.controls['last_name'].touched && authForm.controls['last_name'].invalid) {
-                                                <mat-error>
-                                                    @if (authForm.controls['last_name'].hasError('required')) {
-                                                        <span>This field is mandatory.</span>
-                                                    }@else if (authForm.controls['last_name'].hasError('minlength')) {
-                                                        <span>The last name should contain at least {{authForm.controls['last_name'].errors!['minlength'].requiredLength}} characters.</span>
-                                                    }
-                                                </mat-error>
-                                            } -->
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -97,7 +88,7 @@
                         type="submit" 
                         [disabled]="postForm.invalid"
                     >
-                        <mat-icon>save</mat-icon> Save
+                        <mat-icon>publish</mat-icon> Publish
                     </button>
                 </div>
             </form>
