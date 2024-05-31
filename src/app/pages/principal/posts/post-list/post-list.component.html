@@ -17,13 +17,15 @@
         (onChangeClick)="changePage($event)"
     />
 </mat-card>
-<div class="add-button">
-    <a 
-        mat-fab 
-        color="primary" 
-        matTooltip="Create New Post"
-        routerLink="/p/create"
-    >
-        <mat-icon>post_add</mat-icon>
-    </a>
-</div>
+@if (isLogged()) {
+    <div class="add-button">
+        <a 
+            mat-fab 
+            color="primary" 
+            matTooltip="Create New Post"
+            routerLink="/p/create"
+        >
+            <mat-icon>post_add</mat-icon>
+        </a>
+    </div>
+}
