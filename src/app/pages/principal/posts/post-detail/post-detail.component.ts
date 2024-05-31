@@ -1,25 +1,28 @@
 import { Component, OnInit, ViewChild, signal } from '@angular/core';
-import { PostComponent } from '../../../../components/post/post.component';
-import { ActivatedRoute } from '@angular/router';
-import { PostService } from '../../../../services/post/post.service';
-import { forkJoin, switchMap } from 'rxjs';
-import { Post } from '../../../../models/post/post.model';
-import { MatCardModule } from '@angular/material/card';
-import { CommentService } from '../../../../services/comment/comment.service';
-import { PaginatedComment } from '../../../../models/comment/comment.model';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import { PaginatorComponent } from '../../../../components/paginator/paginator.component';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
+import { forkJoin, switchMap } from 'rxjs';
+
+import { PostService } from '../../../../services/post/post.service';
+import { CommentService } from '../../../../services/comment/comment.service';
 import { ToastrService } from 'ngx-toastr';
 import { StorageService } from '../../../../services/util/storage.service';
-import {MatDialogModule} from '@angular/material/dialog';
-
-import { MatDialog } from '@angular/material/dialog';
+import { Post } from '../../../../models/post/post.model';
+import { PostComponent } from '../../../../components/post/post.component';
 import { DeleteDialogComponent } from '../../../../components/delete-dialog/delete-dialog.component';
+
+import { MatCardModule } from '@angular/material/card';
+import { PaginatedComment } from '../../../../models/comment/comment.model';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { PaginatorComponent } from '../../../../components/paginator/paginator.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 
 @Component({
@@ -35,6 +38,7 @@ import { DeleteDialogComponent } from '../../../../components/delete-dialog/dele
       MatFormFieldModule,
       MatInputModule,
       MatDialogModule,
+      MatTooltipModule,
       
       PostComponent,
       PaginatorComponent
@@ -121,9 +125,13 @@ export class PostDetailComponent implements OnInit {
           progressBar: true
         })
         this.listComments();
-        this.formDir.resetForm();
+        this.resetForm();
       })
     }
+  }
+
+  resetForm(){
+    this.formDir.resetForm();
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, id: number): void {

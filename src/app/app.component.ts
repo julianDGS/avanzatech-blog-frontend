@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './services/util/theme.service';
 
@@ -13,14 +13,14 @@ export class AppComponent implements OnInit{
   title = 'avanzatech_blog_frontend';
   isDarkTheme = signal(true);
 
-  constructor(private storageSV: ThemeService) {}
+  constructor(private themeSV: ThemeService) {}
 
   ngOnInit() {
     this.loadTheme();
   }
 
   loadTheme() {
-    this.storageSV.theme$.subscribe(isDark => {
+    this.themeSV.theme$.subscribe(isDark => {
       if(!isDark){
         document.body.classList.remove('dark')
         document.body.classList.add('light')

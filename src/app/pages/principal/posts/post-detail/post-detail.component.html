@@ -1,4 +1,4 @@
-<mat-card class="w-full lg:w-11 mx-auto mt-4">
+<mat-card class="w-11 md:w-10 lg:w-7 mx-auto mt-4">
     <mat-card-content class="px-4">
         <div class="block">
             <app-post
@@ -13,12 +13,26 @@
                     <div class="w-full mr-3">
                         <mat-form-field class="w-full">
                             <mat-label>New Comment</mat-label>
-                            <textarea matInput formControlName="comment"></textarea>
+                            <textarea matInput formControlName="comment" rows="4"></textarea>
                         </mat-form-field>
                     </div>
-                    <div class="flex justify-content-end ml-2">
-                        <button mat-fab color="primary" type="submit" [disabled]="commentForm.invalid">
+                    <div class="flex justify-content-end ml-2 gap-3">
+                        <button mat-mini-fab 
+                            type="submit" 
+                            color="primary" 
+                            matTooltip="Send" 
+                            [disabled]="commentForm.invalid"
+                        >
                             <mat-icon>send</mat-icon>
+                        </button>
+                        <button mat-mini-fab 
+                            type="button" 
+                            color="accent" 
+                            matTooltip="Cancel" 
+                            [disabled]="commentForm.invalid"
+                            (click)="resetForm()"
+                        >
+                            <mat-icon>cancel</mat-icon>
                         </button>
                     </div>
                 </div>

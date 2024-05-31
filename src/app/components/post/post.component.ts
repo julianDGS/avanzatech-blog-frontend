@@ -1,32 +1,35 @@
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
+import { LikeService } from '../../services/like/like.service';
+import { LikeModalComponent } from '../like-modal/like-modal.component';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { Post } from '../../models/post/post.model';
+import { PaginatedLike } from '../../models/like/like.model';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { Post } from '../../models/post/post.model';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { LikeModalComponent } from '../like-modal/like-modal.component';
-import { LikeService } from '../../services/like/like.service';
-import { PaginatedLike } from '../../models/like/like.model';
-import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-post',
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
 
+    MatButtonModule, 
     MatCardModule, 
     MatChipsModule, 
-    MatButtonModule, 
+    MatDialogModule,
     MatIconModule,
     OverlayModule,
-    RouterLink,
-    MatDialogModule,
+
     LikeModalComponent,
     DeleteDialogComponent
   ],
