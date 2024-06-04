@@ -80,8 +80,8 @@ export class PostComponent {
       enterAnimationDuration,
       exitAnimationDuration,
       data: {
-        title: 'Post',
-        item: this.post?.title
+        title: 'Delete Post',
+        item: `Would you like to delete ${this.post?.title}?`
       }
     });
 

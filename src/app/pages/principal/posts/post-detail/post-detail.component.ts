@@ -142,8 +142,8 @@ export class PostDetailComponent implements OnInit {
       enterAnimationDuration,
       exitAnimationDuration,
       data: {
-        title: 'Comment',
-        item: 'this comment'
+        title: 'Delete Comment',
+        item: 'Would you like to delete this comment?'
       }
     });
 

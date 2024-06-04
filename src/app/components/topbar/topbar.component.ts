@@ -9,6 +9,8 @@ import { StorageService } from '../../services/util/storage.service';
 import { tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ThemeService } from '../../services/util/theme.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-topbar',
@@ -26,6 +28,7 @@ export class TopbarComponent implements OnInit {
     private authSV: AuthService,
     private storageSV: StorageService,
     private themeSV: ThemeService,
+    private dialog: MatDialog,
     private router: Router,
     private toastr: ToastrService
   ){}
@@ -50,7 +53,14 @@ export class TopbarComponent implements OnInit {
 
   onLogAction(){
     if(this.loggedUser()){
-      this.authSV.logout()
+      this.openDialog()
+    } else {
+      this.router.navigate(['auth'])
+    }
+  }
+
+  private logOutAction(){
+    this.authSV.logout()
       .pipe(
         tap(() => this.storageSV.delete('logged-user'))
       ).subscribe(
@@ -59,9 +69,22 @@ export class TopbarComponent implements OnInit {
           this.loggedUser.set(null)
           this.router.navigate(['/auth']).then(() => this.router.navigate(['/']))
       })
-    } else {
-      this.router.navigate(['auth'])
-    }
+  }
+
+  private openDialog() {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '250px',
+      data: {
+        title: 'Logout',
+        item: 'Are you sure you want to logout?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.logOutAction();
+      }
+    });
   }
 
 }
