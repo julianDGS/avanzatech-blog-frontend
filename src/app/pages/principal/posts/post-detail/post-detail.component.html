@@ -57,7 +57,7 @@
                     <mat-card-content>
                         {{comment.comment}}
                     </mat-card-content>
-                    @if (comment.user.id === userId) {
+                    @if (userId && comment.user.id === userId) {
                         <mat-card-actions>
                             <div class="flex justify-content-end w-full">
                                 <button mat-icon-button (click)="openDialog('0ms', '0ms', comment.id)"><mat-icon>delete</mat-icon></button>

@@ -8,11 +8,13 @@ import { PaginatorComponent } from '../../../../components/paginator/paginator.c
 import { StorageService } from '../../../../services/util/storage.service';
 import { PostComponent } from '../../../../components/post/post.component';
 import { ToastrService } from 'ngx-toastr';
-import { tap } from 'rxjs';
+import { catchError, finalize, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
+import { PermissionService } from '../../../../services/post/permission.service';
+import { PermissionResponse } from '../../../../models/post/permission.model';
 
 
 
@@ -73,11 +75,11 @@ export class PostListComponent implements OnInit {
   private canEdit(posts: Post[]){
     if(this.isLogged()){
       for (let post of posts) {
-        if (post.author.id === this.user?.id && post.permissions.author === "edit"){
+        if (post.author.id === this.user?.id && post.permissions.author.name === 'edit') {
           post.can_edit = true
-        } else if (post.author.team?.id === this.user?.teamId && post.permissions.team === "edit") {
+        } else if (post.author.team?.id === this.user?.teamId && post.permissions.team.name === 'edit') {
           post.can_edit = true
-        } else if (post.permissions.auth === "edit") {
+        } else if (post.permissions.auth.name === 'edit') {
           post.can_edit = true
         } else {
           post.can_edit = false

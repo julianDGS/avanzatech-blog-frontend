@@ -27,4 +27,8 @@ export class PostService {
   createPost(request: PostRequest){
     return this.http.post<PostResponse>('post/', request);
   }
+
+  updatePost(postId: number, request: PostRequest){
+    return this.http.put<PostResponse>(`post/${postId}/`, request)
+  }
 }

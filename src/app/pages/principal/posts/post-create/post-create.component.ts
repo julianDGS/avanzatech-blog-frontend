@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
-import { finalize, switchMap } from 'rxjs';
-import { Router } from '@angular/router';
+import { finalize, of, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { PostService } from '../../../../services/post/post.service';
 import { PermissionService } from '../../../../services/post/permission.service';
 import { PostRequest } from '../../../../models/post/post-request.model';
-import { PermissionResponse } from '../../../../models/post/permission.model';
+import { PermissionResponse, Permissions } from '../../../../models/post/permission.model';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
+import { Post } from '../../../../models/post/post.model';
 
 @Component({
   selector: 'app-post-create',
@@ -37,6 +38,7 @@ export class PostCreateComponent implements OnInit{
   postForm!: FormGroup;
   permissions = signal<PermissionResponse[]>([]);
   categories = signal<PermissionResponse[]>([]); 
+  post = signal<Post | null>(null);
   readId: number = 0;
   editId: number = 0;
 
@@ -47,7 +49,8 @@ export class PostCreateComponent implements OnInit{
     private permissionSV: PermissionService,
     private toastrSV: ToastrService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private activeRoute: ActivatedRoute
   ){
     this.buildForm()
   }
@@ -61,8 +64,36 @@ export class PostCreateComponent implements OnInit{
     ).subscribe(resp => {
       this.permissions.set(resp)
       this.changeNames();
-      this.loadDefaultCategories();
+      this.loadPermissions();
     })
+  }
+
+  private loadPermissions(){
+    this.activeRoute.params
+    .pipe(
+      switchMap(par => {
+        if(par.hasOwnProperty('id')){
+          return this.postSV.getPost(par['id'])
+        }
+        return of(null)
+      })
+    )
+    .subscribe( post => {
+      if(post !== null){
+        this.post.set(post);
+        this.loadPostPermissions(post.permissions);
+        this.loadForm();
+      } else {
+        this.loadDefaultPermissions();
+      }
+    })
+  }
+
+  private loadPostPermissions(permissions: Permissions){
+    for (let category of this.categories()){
+      let permission = permissions[category.name as keyof Permissions]
+      this.addPermission(category.id, permission.id)
+    }
   }
 
   private changeNames(){
@@ -77,7 +108,7 @@ export class PostCreateComponent implements OnInit{
     }
   }
 
-  private loadDefaultCategories(){
+  private loadDefaultPermissions(){
     for (let category of this.categories()){
       let permId;
       switch(category.name){
@@ -107,13 +138,19 @@ export class PostCreateComponent implements OnInit{
       this.postForm.enable()
       const request: PostRequest = this.postForm.value
       this.postForm.disable()
-      this.postSV.createPost(request).pipe(
+      let postObservable$;
+      if(this.post() !== null){
+        postObservable$ = this.postSV.updatePost(this.post()!.id, request);
+      } else {
+        postObservable$ = this.postSV.createPost(request);
+      }
+      postObservable$.pipe(
         finalize(() => {
           this.postForm.enable()
           this.disableCategories()
         })
       ).subscribe( resp => {
-        this.toastrSV.success(`${resp.title}, created successfully`, 'Success', {
+        this.toastrSV.success(`${resp.title}, ${this.post() !== null ? 'updated' : 'created'} successfully`, 'Success', {
           progressBar: true
         })
         this.resetForm();
@@ -136,10 +173,21 @@ export class PostCreateComponent implements OnInit{
     }
   }
 
-  buildForm(){
+  private loadForm(){
+    this.postForm.get('title')?.setValue(this.post()?.title);
+    this.postForm.get('content')?.setValue(this.post()?.content);
+  }
+
+  private buildForm(){
     this.postForm = this.fb.group({
-      title: [null, [Validators.required, Validators.maxLength(100)]],
-      content: [null, [Validators.required, Validators.minLength(5)]],
+      title: [
+        null,
+        [Validators.required, Validators.maxLength(100)]
+      ],
+      content: [
+        null,
+        [Validators.required, Validators.minLength(5)]
+      ],
       permissions: this.fb.array([], {validators: [Validators.required, Validators.minLength(4)]})
     })
   }

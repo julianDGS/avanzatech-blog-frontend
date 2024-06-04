@@ -1,8 +1,8 @@
 export interface Permissions {
-    public: string;
-    auth:   string;
-    team:   string;
-    author: string;
+    public: PermissionResponse;
+    auth:   PermissionResponse;
+    team:   PermissionResponse;
+    author: PermissionResponse;
 }
 
 export interface PermissionResponse {

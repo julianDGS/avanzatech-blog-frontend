@@ -1,7 +1,7 @@
 <mat-card class="w-11 md:w-10 lg:w-7 mx-auto mt-4 px-7 py-3">
     <div class="w-full mx-auto">
         <mat-card-header class="mb-4">
-            <mat-card-title>Post Create</mat-card-title>
+            <mat-card-title>{{post() !== null ? 'Post Update' : 'Post Create'}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
@@ -88,7 +88,7 @@
                         type="submit" 
                         [disabled]="postForm.invalid"
                     >
-                        <mat-icon>publish</mat-icon> Publish
+                        <mat-icon>publish</mat-icon> {{post() !== null ? 'Save' : 'Publish'}}
                     </button>
                 </div>
             </form>

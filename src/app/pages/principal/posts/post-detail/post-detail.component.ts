@@ -82,7 +82,9 @@ export class PostDetailComponent implements OnInit {
         this.paginatedComments.set(respComment)
       })
       this.storageSV.get('logged-user').then(resp => {
-        this.userId = resp.id
+        if(resp && resp !== null){
+          this.userId = resp.id
+        }
       })
   }
 
