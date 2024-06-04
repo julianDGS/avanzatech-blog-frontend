@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, signal } from '@angular/core';
 import { PostService } from '../../../../services/post/post.service';
 
 import {MatCardModule} from '@angular/material/card';
@@ -8,13 +8,13 @@ import { PaginatorComponent } from '../../../../components/paginator/paginator.c
 import { StorageService } from '../../../../services/util/storage.service';
 import { PostComponent } from '../../../../components/post/post.component';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, finalize, tap } from 'rxjs';
+import { Subject, Subscription, debounceTime, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { PermissionService } from '../../../../services/post/permission.service';
-import { PermissionResponse } from '../../../../models/post/permission.model';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
@@ -23,22 +23,32 @@ import { PermissionResponse } from '../../../../models/post/permission.model';
   standalone: true,
   imports: [
     RouterLink,
+    
     MatCardModule,
-    PostComponent,
     MatIconModule, 
     MatButtonModule, 
     MatTooltipModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    
+    PostComponent,
     PaginatorComponent
   ],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.scss'
 })
-export class PostListComponent implements OnInit {
+export class PostListComponent implements OnInit, OnDestroy {
   
   paginatedObject = signal<PaginatedPost | null>(null)
   isLogged = signal(false);
   itemsPerPage = 10;
+  filterSubscription?: Subscription;
+  filter$ = new Subject<string>();
+  filterValue?: string;
   private user?: {id: number, teamId: number};
+  
+  @ViewChild('filter') filter!: ElementRef<HTMLInputElement>;
 
   constructor(
     private postSV: PostService,
@@ -46,7 +56,24 @@ export class PostListComponent implements OnInit {
     private storageSV: StorageService
   ){}
 
+  ngOnDestroy(): void {
+    this.filterSubscription?.unsubscribe();
+  }
+
   ngOnInit(): void {
+    this.filterSubscription = this.filter$
+    .pipe(
+      debounceTime(300)
+    )
+    .subscribe(inputValue => {
+      if(inputValue){
+        this.filterValue = inputValue;
+      } else {
+        this.filterValue = undefined;
+      }
+      this.listPosts();
+    })
+
     this.listPosts();
     this.loadUser();
   }
@@ -63,7 +90,7 @@ export class PostListComponent implements OnInit {
   }
 
   private listPosts(page='1'){
-    this.postSV.listPosts(page)
+    this.postSV.listPosts(page, this.filterValue)
     .pipe(
       tap(resp => this.canEdit(resp.results))
     )
@@ -102,6 +129,10 @@ export class PostListComponent implements OnInit {
         this.listPosts()
       })
     }
+  }
+
+  onFilter(){
+    this.filter$.next(this.filter.nativeElement.value)
   }
 
 }

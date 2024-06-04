@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, effect, signal } from '@angular/core';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
@@ -11,7 +11,7 @@ import {MatButtonModule} from '@angular/material/button';
   templateUrl: './paginator.component.html',
   styleUrl: './paginator.component.scss'
 })
-export class PaginatorComponent  {
+export class PaginatorComponent implements OnChanges  {
 
   currentPage = signal<number>(1);
   currentFirstItem = signal<number>(1);
@@ -22,6 +22,10 @@ export class PaginatorComponent  {
   @Input() isPostPaginator = true;
   @Output() onChangeClick = new EventEmitter<number>()
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.currentPage.set(1);
+    this.currentFirstItem.set(1);
+  }
 
   get currentLastItem(){
     if(this.currentPage() === this.totalPages){

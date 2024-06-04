@@ -1,4 +1,9 @@
 <mat-card class="w-11 md:w-10 lg:w-7 mx-auto mt-4">
+    <mat-form-field class="mt-4 w-7 mx-auto">
+        <mat-label for="">Search Post</mat-label>
+        <input matInput type="text" #filter (input)="onFilter()">
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
     <mat-card-content class="md:px-7 px-4">
         @for (post of paginatedObject()?.results; track $index) {
            <app-post

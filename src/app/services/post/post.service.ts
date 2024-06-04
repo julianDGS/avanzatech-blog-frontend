@@ -12,8 +12,17 @@ export class PostService {
     private http: HttpService
   ) { }
 
-  listPosts(pageNumber?: string){
-    return this.http.get<PaginatedPost>(`post/?page=${pageNumber ? pageNumber : ''}`);
+  listPosts(pageNumber?: string, filter?: string){
+    let url =  'post/'
+    if (pageNumber){
+      url += `?page=${pageNumber}`
+      if(filter){
+        url += `&title=${filter}`
+      }
+    } else if (filter){
+      url += `?title=${filter}`
+    }
+    return this.http.get<PaginatedPost>(url);
   }
 
   getPost(postId: number){
