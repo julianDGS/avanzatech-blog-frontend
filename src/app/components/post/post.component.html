@@ -39,7 +39,12 @@
             </div>
             <div class="flex align-items-center gap-2">
                 @if (isLogged) {
-                    <button mat-icon-button [color]="post?.post_liked ? 'warn' : ''"><mat-icon>favorite</mat-icon></button>
+                    <button mat-icon-button 
+                        [color]="post?.post_liked ? 'warn' : ''" 
+                        (click)="onLikeAction()"
+                    >
+                        <mat-icon>favorite</mat-icon>
+                    </button>
                     @if (!isDetail) {
                         <a mat-icon-button [routerLink]="['/p/detail', post?.id]"><mat-icon>chat</mat-icon></a>
                     }

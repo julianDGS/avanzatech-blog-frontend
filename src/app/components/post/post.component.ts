@@ -92,5 +92,18 @@ export class PostComponent {
     });
   }
 
+  onLikeAction(){
+    if(this.post!.post_liked){
+      this.likeSV.deleteLike(this.post!.id).subscribe(() => {
+        this.post!.post_liked = false;
+        this.post!.likes -= 1;
+      });
+    } else {
+      this.likeSV.createLike(this.post!.id).subscribe(() => {
+        this.post!.post_liked = true;
+        this.post!.likes += 1;
+      });
+    }
+  }
 
 }
