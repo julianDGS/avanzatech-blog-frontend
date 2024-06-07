@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule, MatIconRegistry} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
@@ -11,11 +11,21 @@ import { ToastrService } from 'ngx-toastr';
 import { ThemeService } from '../../services/util/theme.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [MatToolbarModule, MatIconModule, MatButtonModule, RouterLink],
+  imports: [
+    RouterLink, 
+
+    MatToolbarModule, 
+    MatIconModule, 
+    MatButtonModule,
+    MatTooltipModule
+
+  ],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss'
 })
@@ -30,8 +40,26 @@ export class TopbarComponent implements OnInit {
     private themeSV: ThemeService,
     private dialog: MatDialog,
     private router: Router,
-    private toastr: ToastrService
-  ){}
+    private toastr: ToastrService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ){
+    this.matIconRegistry.addSvgIcon('user',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/assets/images/user.svg'
+      )
+    );
+    this.matIconRegistry.addSvgIcon('logout',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/assets/images/logout.svg'
+      )
+    );
+    this.matIconRegistry.addSvgIcon('login',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/assets/images/login.svg'
+      )
+    );
+  }
 
   ngOnInit(): void {
     this.storageSV.get('logged-user').then(resp => {

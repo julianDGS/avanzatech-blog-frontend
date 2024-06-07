@@ -41,6 +41,16 @@ export class PostComponent implements AfterViewChecked{
   isOpenLikes = signal(false);
   isOpenComments = signal(false);
   paginatedLike?: PaginatedLike;
+  // likeMap: {[k: string]: string} = {
+  //   '=0': 'No Likes',
+  //   '=1': '1',
+  //   'other': '# Likes',
+  // };
+  // commentMap: {[k: string]: string} = {
+  //   '=0': 'No Comments',
+  //   '=1': '1 Comment',
+  //   'other': '# Comments',
+  // };
 
   @Input({required: true}) post?: Post; 
   @Input({required: true}) isLogged!: boolean;

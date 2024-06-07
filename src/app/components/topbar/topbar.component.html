@@ -5,7 +5,7 @@
                 <img [src]="'assets/horizontal_logo.png'" alt="logo">
             </a>
         </div>
-        <div class="flex align-items-center gap-3">
+        <div class="flex align-items-center gap-3 mr-2">
             <button mat-icon-button (click)="toggleTheme()">
                 @if (dark_mode()) {
                     <mat-icon>light_mode</mat-icon>
@@ -13,14 +13,23 @@
                     <mat-icon>dark_mode</mat-icon>
                 }
             </button>
-            <span>{{loggedUser() !== null ? 'Welcome, ' + loggedUser() : ''}}</span>
-            <button mat-flat-button (click)="onLogAction()">
+            @if (loggedUser()) {
+                <span class="flex align-items-center gap-2 mr-4">
+                    <img class="w-2rem" src="../../../assets/images/user.svg" alt="user">
+                    {{'Welcome, ' + loggedUser()}}
+                </span>
+            }
+            <button mat-mini-fab 
+                color="basic" 
+                (click)="onLogAction()" 
+                [matTooltip]="loggedUser() === null ? 'Login' : 'Logout'"
+            >
                 @if (loggedUser()) {
-                    <mat-icon>logout</mat-icon>
+                    <mat-icon svgIcon="logout"></mat-icon>
                 }@else {
-                    <mat-icon>login</mat-icon>
+                    <mat-icon svgIcon="login"></mat-icon>
                 }
-                {{loggedUser() === null ? 'Login' : 'Logout'}}
+                <!-- {{loggedUser() === null ? 'Login' : 'Logout'}} -->
             </button>
         </div>
     </div>

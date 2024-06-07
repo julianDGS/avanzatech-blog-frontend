@@ -1,12 +1,19 @@
 <mat-card class="mb-4 mt-3 p-3">
-    <mat-card-header class="mb-5">
+    <mat-card-header class="mb-4">
         <div class="flex justify-content-between w-full flex-wrap">
             <div class="flex align-items-center">
+                <div mat-card-avatar class="example-header-image mr-3 mb-0"></div>
                 <mat-card-title>{{post?.title}}</mat-card-title>
             </div>
             <div class="flex align-items-center gap-3">
-                <mat-chip>{{post?.author?.team?.name}}</mat-chip>
-                <span> <strong>{{post?.author?.nickname}}</strong></span>
+                <mat-chip>
+                    <mat-icon matChipAvatar>groups</mat-icon>
+                    {{post?.author?.team?.name}}
+                </mat-chip>
+                <span class="flex align-items-center gap-1"> 
+                    <mat-icon>person</mat-icon>
+                    <strong>{{post?.author?.nickname | titlecase}}</strong>
+                </span>
                 <span>{{post?.createdAt | date}}</span>
             </div>
         </div>
@@ -18,14 +25,18 @@
         <div class="flex flex-wrap justify-content-between w-full mx-2">
             <div class="flex align-items-center gap-2">
                 <button mat-button 
-                    cdkOverlayOrigin 
-                    #trigger="cdkOverlayOrigin" 
-                    type="button" (click)="openLikes()"
+                cdkOverlayOrigin 
+                #trigger="cdkOverlayOrigin" 
+                type="button" (click)="openLikes()"
                 >
-                    {{post?.likes}} Likes
+                    <mat-icon>thumb_up</mat-icon>
+                    {{post?.likes}}
                 </button>
                 @if (!isDetail) {
-                    <a mat-button [routerLink]="['/p/detail', post?.id]">{{post?.comments}} Comments</a>
+                    <a mat-button [routerLink]="['/p/detail', post?.id]">
+                        <mat-icon>forum</mat-icon>
+                        {{post?.comments}}
+                    </a>
                 }
             </div>
             <div class="flex align-items-center gap-2">

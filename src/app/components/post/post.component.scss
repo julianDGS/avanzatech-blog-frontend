@@ -1,3 +1,8 @@
 .button-link:hover {
     background-color: var(--mdc-filled-text-field-container-color);
 }
+
+.example-header-image {
+    background-image: url('https://picsum.photos/200');
+    background-size: cover;
+  }

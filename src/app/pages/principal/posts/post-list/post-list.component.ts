@@ -10,11 +10,12 @@ import { PostComponent } from '../../../../components/post/post.component';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, Subscription, debounceTime, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 
@@ -53,8 +54,17 @@ export class PostListComponent implements OnInit, OnDestroy {
   constructor(
     private postSV: PostService,
     private toastrSV: ToastrService,
-    private storageSV: StorageService
-  ){}
+    private storageSV: StorageService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ){
+    this.matIconRegistry.addSvgIcon(
+      'search',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/assets/images/search.svg'
+      )
+    );
+  }
 
   ngOnDestroy(): void {
     this.filterSubscription?.unsubscribe();
