@@ -1,9 +1,10 @@
 import { Post } from "./post.model";
 
 export interface PostRequest {
-    title:       string;
-    content:     string;
-    permissions: PermissionRequest[];
+    title:        string;
+    content:      string;
+    content_html: string;
+    permissions:  PermissionRequest[];
 }
 
 export interface PermissionRequest {

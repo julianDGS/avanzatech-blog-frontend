@@ -1,5 +1,7 @@
 @import "../node_modules/primeflex/primeflex.scss";
 @import 'ngx-toastr/toastr';
+@import '../node_modules/quill/dist/quill.snow.css';
+@import '../src/assets/editor-theme.scss';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

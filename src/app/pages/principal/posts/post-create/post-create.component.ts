@@ -5,8 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { PostService } from '../../../../services/post/post.service';
 import { PermissionService } from '../../../../services/post/permission.service';
-import { PostRequest } from '../../../../models/post/post-request.model';
+import { ToastrService } from 'ngx-toastr';
 import { PermissionResponse, Permissions } from '../../../../models/post/permission.model';
+import { Post } from '../../../../models/post/post.model';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -14,8 +15,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ToastrService } from 'ngx-toastr';
-import { Post } from '../../../../models/post/post.model';
+
+import { QuillEditorComponent, QuillModule } from 'ngx-quill'
+import { PostRequest } from '../../../../models/post/post-request.model';
+
 
 @Component({
   selector: 'app-post-create',
@@ -28,7 +31,9 @@ import { Post } from '../../../../models/post/post.model';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+
+    QuillModule
   ],
   templateUrl: './post-create.component.html',
   styleUrl: './post-create.component.scss'
@@ -42,7 +47,27 @@ export class PostCreateComponent implements OnInit{
   readId: number = 0;
   editId: number = 0;
 
+  modules = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['code-block'],
+
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      
+      ['clean']   
+    ]
+  }
+
   @ViewChild(FormGroupDirective) formDir!: FormGroupDirective;
+  @ViewChild('editor') editorElement?: QuillEditorComponent;
 
   constructor(
     private postSV: PostService,
@@ -133,10 +158,11 @@ export class PostCreateComponent implements OnInit{
     }
   }
 
-  onSubmit(){
+  onSubmit(){    
     if(!this.postForm.pristine){
       this.postForm.enable()
       const request: PostRequest = this.postForm.value
+      request.content = this.editorElement?.quillEditor.getText() || '';
       this.postForm.disable()
       let postObservable$;
       if(this.post() !== null){
@@ -175,7 +201,7 @@ export class PostCreateComponent implements OnInit{
 
   private loadForm(){
     this.postForm.get('title')?.setValue(this.post()?.title);
-    this.postForm.get('content')?.setValue(this.post()?.content);
+    this.postForm.get('content_html')?.setValue(this.post()?.content_html);
   }
 
   private buildForm(){
@@ -184,9 +210,9 @@ export class PostCreateComponent implements OnInit{
         null,
         [Validators.required, Validators.maxLength(100)]
       ],
-      content: [
+      content_html: [
         null,
-        [Validators.required, Validators.minLength(5)]
+        []
       ],
       permissions: this.fb.array([], {validators: [Validators.required, Validators.minLength(4)]})
     })

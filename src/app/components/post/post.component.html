@@ -12,16 +12,7 @@
         </div>
     </mat-card-header>
     <mat-card-content>
-        <span>
-            @if (isDetail) {
-                {{post?.content}}
-            } @else {
-                {{post?.excerpt}}
-            }
-            @if (!isDetail && post?.excerpt?.length! < post?.content?.length!) {
-                <a mat-button [routerLink]="['/p/detail', post?.id]"> ... Show more</a>
-            }
-        </span>
+        <span #detail></span>
     </mat-card-content>
     <mat-card-actions>
         <div class="flex flex-wrap justify-content-between w-full mx-2">

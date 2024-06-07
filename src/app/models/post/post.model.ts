@@ -11,17 +11,18 @@ export interface PaginatedPost {
 }
 
 export interface Post {
-    id:          number;
-    createdAt:   Date,
-    title:       string;
-    content:     string;
-    excerpt:     string;
-    author:      Omit<User, 'name' | 'last_name'>;
-    permissions: Permissions;
-    likes:       number;
-    comments:    number;
-    post_liked?: boolean;
-    can_edit?:   boolean;
+    id:           number;
+    createdAt:    Date,
+    title:        string;
+    content:      string;
+    content_html: string;
+    excerpt:      string;
+    author:       Omit<User, 'name' | 'last_name'>;
+    permissions:  Permissions;
+    likes:        number;
+    comments:     number;
+    post_liked?:  boolean;
+    can_edit?:    boolean;
 }
 
 

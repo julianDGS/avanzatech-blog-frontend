@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { LikeService } from '../../services/like/like.service';
 import { LikeModalComponent } from '../like-modal/like-modal.component';
@@ -36,7 +36,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss'
 })
-export class PostComponent {
+export class PostComponent implements AfterViewChecked{
 
   isOpenLikes = signal(false);
   isOpenComments = signal(false);
@@ -49,11 +49,18 @@ export class PostComponent {
 
 
   @Output() postDeleted = new EventEmitter<Post>()
+  @ViewChild('detail') detailElement!: ElementRef<HTMLSpanElement>
 
   constructor(
     private likeSV: LikeService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private renderer: Renderer2,
+    private router: Router
   ){}
+
+  ngAfterViewChecked(): void {
+    this.setContent();
+  }
 
   openLikes(){
     this.getLikes();
@@ -104,6 +111,33 @@ export class PostComponent {
         this.post!.likes += 1;
       });
     }
+  }
+
+  setContent(){
+    if(this.isDetail){
+      this.detailElement.nativeElement.innerHTML = this.post?.content_html || '';
+    } else {
+      this.detailElement.nativeElement.innerHTML = this.post?.excerpt || '';
+      if(this.post?.excerpt?.length! < this.post?.content_html?.length!){
+        this.createButton()
+      }
+    }
+  }
+
+  private createButton(): void {
+    const button = this.renderer.createElement('a');
+    const text = this.renderer.createText('... Show more');
+    this.renderer.addClass(button, 'mdc-button');
+    this.renderer.addClass(button, 'mat-mdc-button');
+    this.renderer.addClass(button, 'mat-unthemed');
+    this.renderer.addClass(button, 'mat-mdc-button-base');
+    this.renderer.addClass(button, 'button-link');
+    this.renderer.listen(button, 'click', (event) => {
+      event.preventDefault();
+      this.router.navigate(['/p/detail', this.post?.id]);
+    });
+    this.renderer.appendChild(button, text);
+    this.renderer.appendChild(this.detailElement.nativeElement, button);
   }
 
 }

@@ -1,10 +1,4 @@
-fieldset{
-    border-radius: 0.7rem;
-    border: 1px solid;
-    color: var(--mdc-plain-tooltip-container-color);
-    > legend{
-        padding-left: 1rem;
-        padding-right: 1rem;
-        font-size: large;
-    }
+.label-error {
+    color: var(--mat-form-field-error-text-color);
+    font-size: var(--mat-form-field-subscript-text-size);
 }
