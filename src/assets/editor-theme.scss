@@ -1,27 +1,65 @@
-button:hover .ql-stroke,
-.ql-color-picker:hover .ql-stroke,
-.ql-picker-label:hover .ql-stroke {
-  fill: none;
-  stroke: var(--mat-option-selected-state-label-text-color) !important;
+/*
+General parent editor classes
+*/
+.ql-container {
+  min-height: 7rem;
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.ql-editor {
+  height: 100%;
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+}
+.ql-editor:focus {
+  background-color: var(--mat-full-pseudo-checkbox-disabled-unselected-icon-color);
 }
 
-.ql-active .ql-stroke:not(.ql-color-label) {
-  fill: none;
-  stroke: var(--mat-option-selected-state-label-text-color) !important;
+
+/*
+Editor container (textfield) classes
+*/
+.ql-container.ql-snow{
+  border: none;
+  border-bottom: 1px solid var(--mdc-filled-text-field-label-text-color);
+  background-color: var(--mdc-filled-text-field-container-color);
+  font-size: var(--mat-form-field-container-text-size);
+  & .ql-editor.ql-blank::before {
+    color: var(--mdc-filled-text-field-input-text-placeholder-color);
+  }
 }
 
-button:hover .ql-fill,
-.ql-color-picker:hover .ql-fill,
-.ql-picker-label:hover .ql-fill {
-  fill: var(--mat-option-selected-state-label-text-color) !important;
-  stroke: none;
+
+/*
+Reactive form styles
+*/
+quill-editor.ng-dirty.ng-invalid .ql-container.ql-snow {
+  border-bottom: 1px solid var(--mdc-filled-text-field-error-caret-color);
+  caret-color: var(--mdc-filled-text-field-error-caret-color);
+}
+quill-editor.ng-dirty.ng-valid .ql-container.ql-snow {
+  border-bottom: 1px solid var(--mdc-filled-text-field-input-text-color);
 }
 
-.ql-active .ql-fill:not(.ql-color-label) {
-  fill: var(--mat-option-selected-state-label-text-color) !important;
-  stroke: none;
+
+/*
+Toolbar container classes
+*/
+.ql-toolbar.ql-snow {
+  border: 0.5px solid var(--mdc-filled-text-field-container-color);
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+  background-color: var(--mdc-filled-text-field-container-color);
+
 }
 
+
+/*
+Buttons and dropdowns of the toolbar classes
+*/
 .ql-snow.ql-toolbar button .ql-stroke,
 .ql-picker-label .ql-stroke {
   fill: none;
@@ -33,64 +71,55 @@ button:hover .ql-fill,
   fill: var(--mdc-filled-text-field-label-text-color);
 }
 
-.ql-picker-label .ql-stroke:hover {
-  stroke: var(--mat-option-selected-state-label-text-color) !important;
-  fill: none;
-}
-
 .ql-picker-label {
   color: var(--mdc-filled-text-field-label-text-color) !important;
+}
+
+
+/*
+Buttons and dropdowns of the toolbar classes when hover on them
+*/
+button:hover .ql-stroke,
+.ql-color-picker:hover .ql-stroke,
+.ql-picker-label:hover .ql-stroke {
+  fill: none;
+  stroke: var(--mat-option-selected-state-label-text-color) !important;
+}
+
+button:hover .ql-fill,
+.ql-color-picker:hover .ql-fill,
+.ql-picker-label:hover .ql-fill {
+  fill: var(--mat-option-selected-state-label-text-color) !important;
+  stroke: none;
 }
 
 .ql-picker-label:hover {
   color: var(--mat-option-selected-state-label-text-color) !important;
 }
 
-.ql-toolbar.ql-snow {
-  border: 0.5px solid var(--mdc-filled-text-field-container-color);
-  border-top-left-radius: 0.3rem;
-  border-top-right-radius: 0.3rem;
-  background-color: var(--mdc-filled-text-field-container-color);
-
+.ql-picker-label .ql-stroke:hover {
+  stroke: var(--mat-option-selected-state-label-text-color) !important;
+  fill: none;
 }
 
-.ql-container.ql-snow{
-  border: none;
-  border-bottom: 1px solid var(--mdc-filled-text-field-label-text-color);
-  background-color: var(--mdc-filled-text-field-container-color);
-  font-size: var(--mat-form-field-container-text-size);
-  & .ql-editor.ql-blank::before {
-    color: var(--mdc-filled-text-field-input-text-placeholder-color);
-  }
+
+/*
+Buttons and dropdowns of the toolbar classes when they are active
+*/
+.ql-active .ql-stroke:not(.ql-color-label) {
+  fill: none;
+  stroke: var(--mat-option-selected-state-label-text-color) !important;
 }
 
-quill-editor.ng-dirty.ng-invalid .ql-container.ql-snow {
-  border-bottom: 1px solid var(--mdc-filled-text-field-error-caret-color);
-  caret-color: var(--mdc-filled-text-field-error-caret-color);
-}
-quill-editor.ng-dirty.ng-valid .ql-container.ql-snow {
-  border-bottom: 1px solid var(--mdc-filled-text-field-input-text-color);
+.ql-active .ql-fill:not(.ql-color-label) {
+  fill: var(--mat-option-selected-state-label-text-color) !important;
+  stroke: none;
 }
 
-.ql-container {
-  min-height: 7rem;
-  height: 100%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
 
-.ql-editor {
-  height: 100%;
-  flex: 1;
-  overflow-y: auto;
-  width: 100%;
-}
-
-.ql-editor:focus {
-  background-color: var(--mat-full-pseudo-checkbox-disabled-unselected-icon-color);
-}
-
+/*
+Active dropdown panel classes
+*/
 .ql-snow .ql-picker-options{
   background-color: var(--mat-select-panel-background-color);
   box-shadow: var(--mat-select-container-elevation-shadow);

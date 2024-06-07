@@ -35,15 +35,15 @@
                         [modules]="modules"
                     >
                     </quill-editor>
-                    @if (!postForm.controls['content_html'].pristine && postForm.controls['content_html'].invalid) {
-                        <div class="px-3">
+                    <div class="px-3 container-error">
+                        @if (!postForm.controls['content_html'].pristine && postForm.controls['content_html'].invalid) {
                             @if (postForm.controls['content_html'].hasError('requiredError')) {
-                                <span class="label-error">This field is mandatory.</span>
+                                <div class="animate__animated animate__fadeInDown label-error">This field is mandatory.</div>
                             }@else if (postForm.controls['content_html'].hasError('minLengthError')) {
-                                <span class="label-error">The content_html should contain at least {{postForm.controls['content_html'].errors!['minLengthError'].minLength}} characters.</span>
+                                <div class="label-error animate__animated animate__fadeInDown animate__faster">The content_html should contain at least {{postForm.controls['content_html'].errors!['minLengthError'].minLength}} characters.</div>
                             }
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
 
                     <mat-card class="mb-2">
