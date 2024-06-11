@@ -15,8 +15,8 @@
             </button>
             @if (loggedUser()) {
                 <span class="flex align-items-center gap-2 mr-4">
-                    <img class="w-2rem" src="../../../assets/images/user.svg" alt="user">
-                    {{'Welcome, ' + loggedUser()}}
+                    <img class="w-2rem img-avatar" [src]="'https://picsum.photos/id/' + (loggedUser()!.id + 200) + '/200'" alt="user">
+                    {{'Welcome, ' + loggedUser()?.name}}
                 </span>
             }
             <button mat-mini-fab 

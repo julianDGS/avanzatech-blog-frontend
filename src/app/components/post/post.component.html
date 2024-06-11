@@ -2,7 +2,7 @@
     <mat-card-header class="mb-4">
         <div class="flex justify-content-between w-full flex-wrap">
             <div class="flex align-items-center">
-                <div mat-card-avatar class="example-header-image mr-3 mb-0"></div>
+                <img mat-card-avatar [src]="'https://picsum.photos/id/' + (post?.author!.id + 200) + '/200'" alt="avatar" class="mr-3 mb-0"/>
                 <mat-card-title>{{post?.title}}</mat-card-title>
             </div>
             <div class="flex align-items-center gap-3">
@@ -29,12 +29,12 @@
                 #trigger="cdkOverlayOrigin" 
                 type="button" (click)="openLikes()"
                 >
-                    <mat-icon>thumb_up</mat-icon>
+                    <mat-icon class="material-symbols-outlined">thumb_up</mat-icon>
                     {{post?.likes}}
                 </button>
                 @if (!isDetail) {
                     <a mat-button [routerLink]="['/p/detail', post?.id]">
-                        <mat-icon>forum</mat-icon>
+                        <mat-icon class="material-symbols-outlined">forum</mat-icon>
                         {{post?.comments}}
                     </a>
                 }

@@ -32,7 +32,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class TopbarComponent implements OnInit {
   
   dark_mode = signal<boolean>(true);
-  loggedUser = signal<string | null>(null)
+  loggedUser = signal<{id:number, name:string} | null>(null)
 
   constructor(
     private authSV: AuthService,
@@ -64,7 +64,7 @@ export class TopbarComponent implements OnInit {
   ngOnInit(): void {
     this.storageSV.get('logged-user').then(resp => {
       if(resp && resp !== null){
-        this.loggedUser.set(resp.nickname);
+        this.loggedUser.set({id: resp.id, name: resp.nickname});
       }
       return this.storageSV.get('theme')
     }).then(resp => {
