@@ -1,7 +1,7 @@
-<mat-card class="w-11 md:w-10 lg:w-7 mx-auto mt-4">
-    <mat-card-content class="px-4">
+<mat-card class="w-11/12 md:w-10/12 lg:w-7/12 mx-auto mt-6 md:px-10">
+    <mat-card-content>
         @if (loading()) {
-            <mat-spinner class="m-auto mt-3 mb-3" [diameter]="70" [strokeWidth]="5"></mat-spinner>
+            <mat-spinner class="m-auto mt-6 mb-4" [diameter]="70" [strokeWidth]="5"></mat-spinner>
         } @else {
             <div class="block">
                 <app-post
@@ -13,14 +13,14 @@
             @if (userId) {
                 <div class="mt-1 mb-1">
                     <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
-                        <div class="flex justify-content-between">
-                            <div class="w-full mr-3">
+                        <div class="flex justify-between">
+                            <div class="w-full mr-4">
                                 <mat-form-field class="w-full">
                                     <mat-label>New Comment</mat-label>
                                     <textarea matInput formControlName="comment" rows="4"></textarea>
                                 </mat-form-field>
                             </div>
-                            <div class="flex justify-content-end ml-2 gap-3">
+                            <div class="flex justify-end ml-2 gap-4">
                                 <button mat-mini-fab 
                                     type="submit" 
                                     color="primary" 
@@ -50,11 +50,11 @@
                 @for (comment of paginatedComments()?.results; track $index) {
                     <mat-card class="mb-1">
                         <mat-card-header class="mb-2">
-                            <div class="flex justify-content-between w-full">
-                                <div class="flex align-items-center">
+                            <div class="flex justify-between w-full">
+                                <div class="flex items-center">
                                     <mat-card-title>{{comment.user.nickname}}</mat-card-title>
                                 </div>
-                                <div class="flex align-items-center gap-3">
+                                <div class="flex items-center gap-4">
                                     <span>{{comment.created_at | date}}</span>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                         </mat-card-content>
                         @if (userId && comment.user.id === userId) {
                             <mat-card-actions>
-                                <div class="flex justify-content-end w-full">
+                                <div class="flex justify-end w-full">
                                     <button mat-icon-button (click)="openDialog('0ms', '0ms', comment.id)"><mat-icon>delete</mat-icon></button>
                                 </div>
                             </mat-card-actions>

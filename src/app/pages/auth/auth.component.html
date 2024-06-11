@@ -1,11 +1,11 @@
 <div class="flex h-screen">
-    <div class="container w-full lg:w-4 flex flex-column justify-content-center h-full px-6 py-6 ">
-        <a routerLink="/" class="mx-auto mb-6">
+    <div class="container-box w-full lg:w-4/12 flex flex-col justify-center h-full px-12 py-12 ">
+        <a routerLink="/" class="mx-auto mb-12">
             <img [src]="'assets/logo.png'"/>
         </a>
         <router-outlet/>
     </div>
-    <div class="w-8 hidden lg:flex flex-column justify-content-between align-items-center p-6 image-container">
+    <div class="w-8/12 hidden lg:flex flex-col justify-between items-center p-12 image-container">
         <div class="my-auto">
             <img src="../../../assets/bg.svg" alt="">
         </div>

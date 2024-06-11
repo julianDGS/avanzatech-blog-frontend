@@ -1,11 +1,16 @@
 <mat-toolbar [class.theme]="!dark_mode()">
-    <div class="flex justify-content-center md:justify-content-between w-full">
+    <div class="flex justify-center md:justify-between w-full">
         <div class="hidden md:flex">
-            <a class="flex align-items-center" routerLink="/">
+            <a class="flex items-center" routerLink="/">
                 <img [src]="'assets/horizontal_logo.png'" alt="logo">
             </a>
         </div>
-        <div class="flex align-items-center gap-3 mr-2">
+        <div class="md:hidden flex mr-2">
+            <a class="flex items-center" routerLink="/">
+                <mat-icon class="material-symbols-outlined">home</mat-icon>
+            </a>
+        </div>
+        <div class="flex items-center gap-4 mr-2">
             <button mat-icon-button (click)="toggleTheme()">
                 @if (dark_mode()) {
                     <mat-icon>light_mode</mat-icon>
@@ -14,8 +19,8 @@
                 }
             </button>
             @if (loggedUser()) {
-                <span class="flex align-items-center gap-2 mr-4">
-                    <img class="w-2rem img-avatar" [src]="'https://picsum.photos/id/' + (loggedUser()!.id + 200) + '/200'" alt="user">
+                <span class="flex items-center gap-2 mr-6">
+                    <img class="w-8 img-avatar" [src]="'https://picsum.photos/id/' + (loggedUser()!.id + 200) + '/200'" alt="user">
                     {{'Welcome, ' + loggedUser()?.name}}
                 </span>
             }

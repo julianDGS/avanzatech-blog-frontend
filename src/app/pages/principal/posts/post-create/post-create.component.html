@@ -1,12 +1,12 @@
-<mat-card class="w-11 md:w-10 lg:w-7 mx-auto mt-4 px-7 py-2">
+<mat-card class="w-11/12 md:w-10/12 lg:w-7/12 mx-auto mt-6 md:px-16 py-2">
     <div class="w-full mx-auto">
         @if (loading()) {
-            <mat-spinner class="m-auto mt-3 mb-3" [diameter]="70" [strokeWidth]="5"></mat-spinner>
+            <mat-spinner class="m-auto mt-6 mb-4" [diameter]="70" [strokeWidth]="5"></mat-spinner>
         } @else {
-            <mat-card-header class="mb-3">
+            <mat-card-header class="mb-4" style="padding-top: 0.5rem;">
                 <mat-card-title>{{post() !== null ? 'Post Update' : 'Post Create'}}</mat-card-title>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content style="padding-bottom: 0.3rem;">
                 <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
                     <div class="mb-1">
                         <mat-form-field class="w-full">
@@ -28,7 +28,7 @@
                             }
                         </mat-form-field>
                     </div>
-                    <div class="mb-4">
+                    <div class="mb-1">
                         <quill-editor #editor 
                             class="w-full" 
                             formControlName="content_html" 
@@ -38,7 +38,7 @@
                             [modules]="modules"
                         >
                         </quill-editor>
-                        <div class="px-3 container-error">
+                        <div class="px-4 container-error">
                             @if (!postForm.controls['content_html'].pristine && postForm.controls['content_html'].invalid) {
                                 @if (postForm.controls['content_html'].hasError('requiredError')) {
                                     <div class="animate__animated animate__fadeInDown label-error">This field is mandatory.</div>
@@ -49,17 +49,17 @@
                         </div>
                     </div>
     
-                        <mat-card class="mb-2">
-                            <mat-card-header class="mb-2">
+                        <mat-card class="mb-3">
+                            <mat-card-header class="mb-2" style="padding-top: 0;">
                                 <mat-card-title>Permissions</mat-card-title>
                             </mat-card-header>
-                            <mat-card-content>
+                            <mat-card-content style="padding-bottom: 0rem;">
     
                                 <div formArrayName="permissions">
                                     @for (permission of permissionsForm.controls; track $index) {
                                         <ng-container [formGroupName]="$index">
-                                            <div class="formgrid grid">
-                                                <div class="col-3">
+                                            <div class="grid grid-cols-12 md:gap-4 md:mb-0 mb-4">
+                                                <div class="col-span-12 md:col-span-3">
                                                     <mat-form-field class="w-full">
                                                         <mat-label>Level</mat-label>
                                                         <mat-select formControlName="category_id">
@@ -69,8 +69,8 @@
                                                         </mat-select>
                                                     </mat-form-field>
                                                 </div>
-                                                <div class="col-3">
-                                                    <mat-form-field>
+                                                <div class="col-span-12 md:col-span-3">
+                                                    <mat-form-field class="w-full">
                                                         <mat-label>Permission</mat-label>
                                                         <mat-select formControlName="permission_id">
                                                             @for (permission of permissions(); track $index) {
@@ -85,7 +85,7 @@
                                 </div>
                             </mat-card-content>
                         </mat-card>
-                    <div class="flex justify-content-end gap-3">
+                    <div class="flex justify-end gap-4">
                         <button mat-stroked-button 
                             type="button" 
                             [disabled]="postForm.invalid"

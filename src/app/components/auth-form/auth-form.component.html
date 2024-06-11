@@ -1,4 +1,4 @@
-<mat-card class="p-5 w-7 lg:w-auto mx-auto">
+<mat-card class="w-11/12 md:p-8 md:w-7/12 lg:w-auto mx-auto">
     <mat-card-header class="mb-4">
         <mat-card-title>{{ login ? 'Login' :'User Registration'}}</mat-card-title>
     </mat-card-header>
@@ -108,14 +108,14 @@
                     </mat-form-field>
                 </div>
             }
-            <div class="flex justify-content-between">
+            <div class="flex justify-between">
                 @if (login) {
-                    <span class="align-items-center">
+                    <span class="items-center">
                         Don't have account?
                         <a mat-button routerLink="/auth/register">Sign Up</a>
                     </span>
                 } @else {
-                    <span class="align-items-center">
+                    <span class="items-center">
                         Have an account?
                         <a mat-button routerLink="/auth">Login</a>
                     </span>

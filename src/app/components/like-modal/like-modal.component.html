@@ -1,5 +1,5 @@
 @if (paginatedLike?.results && paginatedLike?.results!.length > 0) {
-    <mat-card class="mb-4 mt-3 like-card">
+    <mat-card class="mb-4 mt-6 like-card">
         <mat-card-content>
             @for (like of paginatedLike?.results; track $index) {
                 <p class="mb-0">{{like.user.nickname}}</p>

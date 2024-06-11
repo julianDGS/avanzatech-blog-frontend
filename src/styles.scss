@@ -1,9 +1,7 @@
-@import "../node_modules/primeflex/primeflex.scss";
-@import 'ngx-toastr/toastr';
-@import '../node_modules/quill/dist/quill.snow.css';
-@import '../node_modules/animate.css/animate.min.css';
-
-@import '../src/assets/editor-theme.scss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/icon?family=Material+Symbols|Material+Symbols+Outlined");
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -14,4 +12,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --mat-snack-bar-button-color: #b12f0e;
     --mdc-snackbar-supporting-text-color: #b12f0e;
   }
+
+// .material-symbols-outlined {
+//   font-variation-settings:
+//   'FILL' 0,
+//   'wght' 100,
+//   'GRAD' 0,
+//   'opsz' 40
+// }
+
 }

@@ -1,23 +1,25 @@
-<mat-card class="w-11 md:w-10 lg:w-7 mx-auto mt-4">
-    <mat-form-field class="mt-4 w-7 mx-auto">
+<mat-card class="w-11/12 md:w-10/12 lg:w-7/12 mx-auto mt-8">
+    <mat-form-field class="mt-8 w-7/12 mx-auto">
         <mat-label for="">Search Post</mat-label>
         <input matInput type="text" #filter (input)="onFilter()" [disabled]="loading()">
         <mat-icon svgIcon="search" matSuffix></mat-icon>
     </mat-form-field>
         @if (loading()) {
-            <mat-spinner class="m-auto mt-3 mb-3" [diameter]="70" [strokeWidth]="5"></mat-spinner>
+            <mat-spinner class="m-auto mt-6 mb-4" [diameter]="70" [strokeWidth]="5"></mat-spinner>
             } @else {
-                <mat-card-content class="md:px-7 px-4">
-                @for (post of paginatedObject()?.results; track $index) {
-                <app-post
-                        [isLogged]="isLogged()"
-                        [post]="post"
-                        [canEdit]="post.can_edit!"
-                        (postDeleted)="deletePost($event)"
-                    >
-                    </app-post>
-                }
-            </mat-card-content>
+                <div class="md:px-14 px-5">
+                    <mat-card-content>
+                    @for (post of paginatedObject()?.results; track $index) {
+                    <app-post
+                            [isLogged]="isLogged()"
+                            [post]="post"
+                            [canEdit]="post.can_edit!"
+                            (postDeleted)="deletePost($event)"
+                        >
+                        </app-post>
+                    }
+                </mat-card-content>
+                </div>
             <app-paginator
                 [itemsPerPage]="itemsPerPage"
                 [totalPages]="paginatedObject()?.total_pages || 0"
@@ -35,7 +37,7 @@
             class="add-icon"
             [disabled]="loading()"
         >
-            <mat-icon class="text-3xl pb-1">post_add</mat-icon>
+            <mat-icon class="text-2xl pb-8 mx-auto">post_add</mat-icon>
         </a>
     </div>
 }
