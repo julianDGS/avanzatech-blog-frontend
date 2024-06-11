@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
-import { forkJoin, switchMap } from 'rxjs';
+import { delay, forkJoin, switchMap } from 'rxjs';
 
 import { PostService } from '../../../../services/post/post.service';
 import { CommentService } from '../../../../services/comment/comment.service';
@@ -22,6 +22,7 @@ import { PaginatorComponent } from '../../../../components/paginator/paginator.c
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
@@ -39,6 +40,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
       MatInputModule,
       MatDialogModule,
       MatTooltipModule,
+      MatProgressSpinnerModule,
       
       PostComponent,
       PaginatorComponent
@@ -53,6 +55,7 @@ export class PostDetailComponent implements OnInit {
   post = signal<Post | null>(null)
   paginatedComments = signal<PaginatedComment | null>(null)
   userId?: number;
+  loading = signal(false);
 
   @ViewChild(FormGroupDirective) formDir!: FormGroupDirective;
 
@@ -69,23 +72,29 @@ export class PostDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-     this.activeRoute.params
-     .pipe(
-        switchMap(({id}) => {
-          const post$ = this.postSV.getPost(id);
-          const comments$ = this.commentSV.getComments('1', id);
-          return forkJoin([post$, comments$])
-        })
-      )
-      .subscribe( ([respPost, respComment]) => {
-        this.post.set(respPost)
-        this.paginatedComments.set(respComment)
-      })
-      this.storageSV.get('logged-user').then(resp => {
-        if(resp && resp !== null){
-          this.userId = resp.id
-        }
-      })
+    this.loading.set(true);
+    this.activeRoute.params
+    .pipe(
+      switchMap(({id}) => {
+        const post$ = this.postSV.getPost(id);
+        const comments$ = this.commentSV.getComments('1', id);
+        return forkJoin([post$, comments$])
+      }),
+      delay(300),
+    )
+    .subscribe( {
+    next:  ([respPost, respComment]) => {
+      this.post.set(respPost)
+      this.paginatedComments.set(respComment)
+      this.loading.set(false);
+    },
+    error: () => this.loading.set(false)
+    })
+    this.storageSV.get('logged-user').then(resp => {
+      if(resp && resp !== null){
+        this.userId = resp.id
+      }
+    })
   }
 
   private buildForm(){

@@ -11,3 +11,7 @@
     background: linear-gradient(50deg, rgba(0,76,212,1) 20%, rgba(0,240,183,1) 80%);
     color: rgb(255, 255, 255);
 }
+
+.add-icon.mat-mdc-button-disabled{
+    opacity: 0.5;
+}

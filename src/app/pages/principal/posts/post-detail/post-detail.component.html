@@ -1,82 +1,86 @@
 <mat-card class="w-11 md:w-10 lg:w-7 mx-auto mt-4">
     <mat-card-content class="px-4">
-        <div class="block">
-            <app-post
-                [isDetail]="true"
-                [isLogged]="true"
-                [post]="post()!"
-            />
-        </div>
-        @if (userId) {
-            <div class="mt-1 mb-1">
-                <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
-                    <div class="flex justify-content-between">
-                        <div class="w-full mr-3">
-                            <mat-form-field class="w-full">
-                                <mat-label>New Comment</mat-label>
-                                <textarea matInput formControlName="comment" rows="4"></textarea>
-                            </mat-form-field>
-                        </div>
-                        <div class="flex justify-content-end ml-2 gap-3">
-                            <button mat-mini-fab 
-                                type="submit" 
-                                color="primary" 
-                                matTooltip="Send" 
-                                [disabled]="commentForm.invalid"
-                            >
-                                <mat-icon>send</mat-icon>
-                            </button>
-                            <button mat-mini-fab 
-                                type="button" 
-                                color="accent" 
-                                matTooltip="Cancel" 
-                                [disabled]="commentForm.invalid"
-                                (click)="resetForm()"
-                            >
-                                <mat-icon>cancel</mat-icon>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        }
-        <div class="ml-2">
-            <h2 class="mb-1">Comments</h2>
-        </div>
-        <div class="block">
-            @for (comment of paginatedComments()?.results; track $index) {
-                <mat-card class="mb-1">
-                    <mat-card-header class="mb-2">
-                        <div class="flex justify-content-between w-full">
-                            <div class="flex align-items-center">
-                                <mat-card-title>{{comment.user.nickname}}</mat-card-title>
-                            </div>
-                            <div class="flex align-items-center gap-3">
-                                <span>{{comment.created_at | date}}</span>
-                            </div>
-                        </div>
-                    </mat-card-header>
-                    <mat-card-content>
-                        {{comment.comment}}
-                    </mat-card-content>
-                    @if (userId && comment.user.id === userId) {
-                        <mat-card-actions>
-                            <div class="flex justify-content-end w-full">
-                                <button mat-icon-button (click)="openDialog('0ms', '0ms', comment.id)"><mat-icon>delete</mat-icon></button>
-                            </div>
-                        </mat-card-actions>
-                    }
-                </mat-card>
-            }
-            <div class="-mt-1">
-                <app-paginator
-                [itemsPerPage]="itemsPerPage"
-                [totalPages]="paginatedComments()?.total_pages || 0"
-                [totalItems]="paginatedComments()?.total_count || 0"
-                (onChangeClick)="changePage($event)"
+        @if (loading()) {
+            <mat-spinner class="m-auto mt-3 mb-3" [diameter]="70" [strokeWidth]="5"></mat-spinner>
+        } @else {
+            <div class="block">
+                <app-post
+                    [isDetail]="true"
+                    [isLogged]="true"
+                    [post]="post()!"
                 />
             </div>
-            
-        </div>
+            @if (userId) {
+                <div class="mt-1 mb-1">
+                    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+                        <div class="flex justify-content-between">
+                            <div class="w-full mr-3">
+                                <mat-form-field class="w-full">
+                                    <mat-label>New Comment</mat-label>
+                                    <textarea matInput formControlName="comment" rows="4"></textarea>
+                                </mat-form-field>
+                            </div>
+                            <div class="flex justify-content-end ml-2 gap-3">
+                                <button mat-mini-fab 
+                                    type="submit" 
+                                    color="primary" 
+                                    matTooltip="Send" 
+                                    [disabled]="commentForm.invalid"
+                                >
+                                    <mat-icon>send</mat-icon>
+                                </button>
+                                <button mat-mini-fab 
+                                    type="button" 
+                                    color="accent" 
+                                    matTooltip="Cancel" 
+                                    [disabled]="commentForm.invalid"
+                                    (click)="resetForm()"
+                                >
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
+            <div class="ml-2">
+                <h2 class="mb-1">Comments</h2>
+            </div>
+            <div class="block">
+                @for (comment of paginatedComments()?.results; track $index) {
+                    <mat-card class="mb-1">
+                        <mat-card-header class="mb-2">
+                            <div class="flex justify-content-between w-full">
+                                <div class="flex align-items-center">
+                                    <mat-card-title>{{comment.user.nickname}}</mat-card-title>
+                                </div>
+                                <div class="flex align-items-center gap-3">
+                                    <span>{{comment.created_at | date}}</span>
+                                </div>
+                            </div>
+                        </mat-card-header>
+                        <mat-card-content>
+                            {{comment.comment}}
+                        </mat-card-content>
+                        @if (userId && comment.user.id === userId) {
+                            <mat-card-actions>
+                                <div class="flex justify-content-end w-full">
+                                    <button mat-icon-button (click)="openDialog('0ms', '0ms', comment.id)"><mat-icon>delete</mat-icon></button>
+                                </div>
+                            </mat-card-actions>
+                        }
+                    </mat-card>
+                }
+                <div class="-mt-1">
+                    <app-paginator
+                    [itemsPerPage]="itemsPerPage"
+                    [totalPages]="paginatedComments()?.total_pages || 0"
+                    [totalItems]="paginatedComments()?.total_count || 0"
+                    (onChangeClick)="changePage($event)"
+                    />
+                </div>
+                
+            </div>
+        }
     </mat-card-content>
 </mat-card>

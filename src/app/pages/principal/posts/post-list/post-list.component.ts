@@ -8,13 +8,14 @@ import { PaginatorComponent } from '../../../../components/paginator/paginator.c
 import { StorageService } from '../../../../services/util/storage.service';
 import { PostComponent } from '../../../../components/post/post.component';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, Subscription, debounceTime, tap } from 'rxjs';
+import { Subject, Subscription, debounceTime, delay, finalize, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { DomSanitizer } from '@angular/platform-browser';
 
 
@@ -32,6 +33,7 @@ import { DomSanitizer } from '@angular/platform-browser';
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     
     PostComponent,
     PaginatorComponent
@@ -47,6 +49,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   filterSubscription?: Subscription;
   filter$ = new Subject<string>();
   filterValue?: string;
+  loading = signal(false)
   private user?: {id: number, teamId: number};
   
   @ViewChild('filter') filter!: ElementRef<HTMLInputElement>;
@@ -100,9 +103,14 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
   private listPosts(page='1'){
+    this.loading.set(true);
     this.postSV.listPosts(page, this.filterValue)
     .pipe(
-      tap(resp => this.canEdit(resp.results))
+      tap(resp => {
+        this.canEdit(resp.results)
+      }),
+      delay(300),
+      finalize(() => this.loading.set(false)),
     )
     .subscribe((resp) => {
       this.paginatedObject.set(resp);

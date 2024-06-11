@@ -1,27 +1,31 @@
 <mat-card class="w-11 md:w-10 lg:w-7 mx-auto mt-4">
     <mat-form-field class="mt-4 w-7 mx-auto">
         <mat-label for="">Search Post</mat-label>
-        <input matInput type="text" #filter (input)="onFilter()">
+        <input matInput type="text" #filter (input)="onFilter()" [disabled]="loading()">
         <mat-icon svgIcon="search" matSuffix></mat-icon>
     </mat-form-field>
-    <mat-card-content class="md:px-7 px-4">
-        @for (post of paginatedObject()?.results; track $index) {
-           <app-post
-                [isLogged]="isLogged()"
-                [post]="post"
-                [canEdit]="post.can_edit!"
-                (postDeleted)="deletePost($event)"
-            >
-            </app-post>
+        @if (loading()) {
+            <mat-spinner class="m-auto mt-3 mb-3" [diameter]="70" [strokeWidth]="5"></mat-spinner>
+            } @else {
+                <mat-card-content class="md:px-7 px-4">
+                @for (post of paginatedObject()?.results; track $index) {
+                <app-post
+                        [isLogged]="isLogged()"
+                        [post]="post"
+                        [canEdit]="post.can_edit!"
+                        (postDeleted)="deletePost($event)"
+                    >
+                    </app-post>
+                }
+            </mat-card-content>
+            <app-paginator
+                [itemsPerPage]="itemsPerPage"
+                [totalPages]="paginatedObject()?.total_pages || 0"
+                [totalItems]="paginatedObject()?.total_count || 0"
+                (onChangeClick)="changePage($event)"
+            />
         }
-    </mat-card-content>
-    <app-paginator
-        [itemsPerPage]="itemsPerPage"
-        [totalPages]="paginatedObject()?.total_pages || 0"
-        [totalItems]="paginatedObject()?.total_count || 0"
-        (onChangeClick)="changePage($event)"
-    />
-</mat-card>
+    </mat-card>
 @if (isLogged()) {
     <div class="add-button">
         <a 
@@ -29,6 +33,7 @@
             matTooltip="Create New Post"
             routerLink="/p/create"
             class="add-icon"
+            [disabled]="loading()"
         >
             <mat-icon class="text-3xl pb-1">post_add</mat-icon>
         </a>

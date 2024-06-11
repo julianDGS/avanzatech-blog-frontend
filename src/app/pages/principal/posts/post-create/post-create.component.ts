@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
-import { finalize, of, switchMap } from 'rxjs';
+import { delay, finalize, of, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { PostService } from '../../../../services/post/post.service';
@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { QuillEditorComponent, QuillModule } from 'ngx-quill'
 import { PostRequest } from '../../../../models/post/post-request.model';
@@ -32,6 +33,7 @@ import { PostRequest } from '../../../../models/post/post-request.model';
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
 
     QuillModule
   ],
@@ -46,6 +48,7 @@ export class PostCreateComponent implements OnInit{
   post = signal<Post | null>(null);
   readId: number = 0;
   editId: number = 0;
+  loading = signal(false);
 
   modules = {
     toolbar: [
@@ -81,15 +84,19 @@ export class PostCreateComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.loading.set(true);
     this.permissionSV.getCategories().pipe(
       switchMap(resp => {
         this.categories.set(resp)
         return this.permissionSV.getPermissions()
-      })
-    ).subscribe(resp => {
-      this.permissions.set(resp)
-      this.changeNames();
-      this.loadPermissions();
+      }),
+    ).subscribe({
+      next: resp => {
+        this.permissions.set(resp)
+        this.changeNames();
+        this.loadPermissions();
+      },
+      error: () => this.loading.set(false)
     })
   }
 
@@ -101,16 +108,21 @@ export class PostCreateComponent implements OnInit{
           return this.postSV.getPost(par['id'])
         }
         return of(null)
-      })
+      }),
+      delay(300),
     )
-    .subscribe( post => {
-      if(post !== null){
-        this.post.set(post);
-        this.loadPostPermissions(post.permissions);
-        this.loadForm();
-      } else {
-        this.loadDefaultPermissions();
-      }
+    .subscribe({ 
+      next: post => {
+        if(post !== null){
+          this.post.set(post);
+          this.loadPostPermissions(post.permissions);
+          this.loadForm();
+        } else {
+          this.loadDefaultPermissions();
+        }
+        this.loading.set(false)
+      },
+      error: () => this.loading.set(false),
     })
   }
 
