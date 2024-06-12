@@ -4,28 +4,28 @@
         <input matInput type="text" #filter (input)="onFilter()" [disabled]="loading()">
         <mat-icon svgIcon="search" matSuffix></mat-icon>
     </mat-form-field>
-        @if (loading()) {
-            <mat-spinner class="m-auto mt-3 mb-3" [diameter]="70" [strokeWidth]="5"></mat-spinner>
-            } @else {
-                <mat-card-content class="md:px-7 px-4">
-                @for (post of paginatedObject()?.results; track $index) {
-                <app-post
-                        [isLogged]="isLogged()"
-                        [post]="post"
-                        [canEdit]="post.can_edit!"
-                        (postDeleted)="deletePost($event)"
-                    >
-                    </app-post>
-                }
-            </mat-card-content>
-            <app-paginator
-                [itemsPerPage]="itemsPerPage"
-                [totalPages]="paginatedObject()?.total_pages || 0"
-                [totalItems]="paginatedObject()?.total_count || 0"
-                (onChangeClick)="changePage($event)"
-            />
+    @if (loading()) {
+        <mat-spinner class="m-auto mt-3 mb-3" [diameter]="70" [strokeWidth]="5"></mat-spinner>
+    } @else {
+        <mat-card-content class="md:px-7 px-4">
+        @for (post of paginatedObject()?.results; track $index) {
+            <app-post
+                [isLogged]="isLogged()"
+                [post]="post"
+                [canEdit]="post.can_edit!"
+                (postDeleted)="deletePost($event)"
+            >
+            </app-post>
         }
-    </mat-card>
+        </mat-card-content>
+    }
+    <app-paginator
+        [itemsPerPage]="itemsPerPage"
+        [totalPages]="paginatedObject()?.total_pages || 0"
+        [totalItems]="paginatedObject()?.total_count || 0"
+        (onChangeClick)="changePage($event)"
+    />
+</mat-card>
 @if (isLogged()) {
     <div class="add-button">
         <a 

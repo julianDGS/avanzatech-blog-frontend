@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { delay, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-post',
@@ -41,6 +42,7 @@ export class PostComponent implements AfterViewChecked{
   isOpenLikes = signal(false);
   isOpenComments = signal(false);
   paginatedLike?: PaginatedLike;
+  loadingLikes = signal(false);
   // likeMap: {[k: string]: string} = {
   //   '=0': 'No Likes',
   //   '=1': '1',
@@ -73,8 +75,10 @@ export class PostComponent implements AfterViewChecked{
   }
 
   openLikes(){
-    this.getLikes();
-    this.isOpenLikes.update(prev => !prev);
+    if(this.post?.likes && this.post.likes > 0){
+      this.getLikes();
+      this.isOpenLikes.update(prev => !prev);
+    }
   }
 
   openComments(){
@@ -86,7 +90,12 @@ export class PostComponent implements AfterViewChecked{
   }
 
   private getLikes(page='1'){
-    this.likeSV.getLikes(page, String(this.post?.id)).subscribe( resp => {
+    this.loadingLikes.set(true);
+    this.likeSV.getLikes(page, String(this.post?.id))
+    .pipe(
+      finalize(() => this.loadingLikes.set(false))
+    )
+    .subscribe( resp => {
       this.paginatedLike = resp
     })
   }

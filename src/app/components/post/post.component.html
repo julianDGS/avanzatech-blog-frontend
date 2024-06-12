@@ -69,6 +69,7 @@
     >
     <app-like-modal
         [paginatedLike]="paginatedLike"
+        [loading]="loadingLikes()"
         (pageChanged)="onLikePageChanged($event)"
     ></app-like-modal>
 </ng-template>
