@@ -47,30 +47,34 @@
                 <h2 class="mb-1">Comments</h2>
             </div>
             <div class="block">
-                @for (comment of paginatedComments()?.results; track $index) {
-                    <mat-card class="mb-1">
-                        <mat-card-header class="mb-2">
-                            <div class="flex justify-between w-full">
-                                <div class="flex items-center">
-                                    <mat-card-title>{{comment.user.nickname}}</mat-card-title>
+                @if (loading() || loadingComments()) {
+                    <mat-spinner class="m-auto mt-3 mb-3" [diameter]="70" [strokeWidth]="5"></mat-spinner>
+                }@else {
+                    @for (comment of paginatedComments()?.results; track $index) {
+                        <mat-card class="mb-1">
+                            <mat-card-header class="mb-2">
+                                <div class="flex justify-between w-full">
+                                    <div class="flex items-center">
+                                        <mat-card-title>{{comment.user.nickname}}</mat-card-title>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <span>{{comment.created_at | date}}</span>
+                                    </div>
                                 </div>
-                                <div class="flex items-center gap-4">
-                                    <span>{{comment.created_at | date}}</span>
-                                </div>
-                            </div>
-                        </mat-card-header>
-                        <mat-card-content>
-                            {{comment.comment}}
-                        </mat-card-content>
-                        @if (userId && comment.user.id === userId) {
-                            <mat-card-actions>
-                                <div class="flex justify-end w-full">
-                                    <button mat-icon-button (click)="openDialog('0ms', '0ms', comment.id)"><mat-icon>delete</mat-icon></button>
-                                </div>
-                            </mat-card-actions>
-                        }
-                    </mat-card>
-                }
+                            </mat-card-header>
+                            <mat-card-content>
+                                {{comment.comment}}
+                            </mat-card-content>
+                            @if (userId && comment.user.id === userId) {
+                                <mat-card-actions>
+                                    <div class="flex justify-end w-full">
+                                        <button mat-icon-button (click)="openDialog('0ms', '0ms', comment.id)"><mat-icon>delete</mat-icon></button>
+                                    </div>
+                                </mat-card-actions>
+                            }
+                        </mat-card>
+                    }
+            }
                 <div class="-mt-1">
                     <app-paginator
                     [itemsPerPage]="itemsPerPage"
@@ -79,7 +83,6 @@
                     (onChangeClick)="changePage($event)"
                     />
                 </div>
-                
             </div>
         }
     </mat-card-content>

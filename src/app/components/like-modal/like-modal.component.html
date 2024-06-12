@@ -1,10 +1,14 @@
-@if (paginatedLike?.results && paginatedLike?.results!.length > 0) {
-    <mat-card class="mb-4 mt-6 like-card">
+<mat-card class="mb-4 mt-6 like-card">
+    @if (loading) {
+        <mat-spinner class="m-auto mt-3 mb-3" [diameter]="40" [strokeWidth]="3"></mat-spinner>
+    } @else if (paginatedLike?.results && paginatedLike?.results!.length > 0) {
         <mat-card-content>
             @for (like of paginatedLike?.results; track $index) {
                 <p class="mb-0">{{like.user.nickname}}</p>
             }
         </mat-card-content>
+    }
+    @if(paginatedLike?.results && paginatedLike?.results!.length > 0){
         <app-paginator
             [isPostPaginator]="false"
             [itemsPerPage]="itemsPerPage"
@@ -12,6 +16,6 @@
             [totalItems]="paginatedLike?.total_count || 0"
             (onChangeClick)="changePage($event)"
         />
-    </mat-card>
-}
+    }
+</mat-card>
 

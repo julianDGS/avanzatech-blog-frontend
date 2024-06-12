@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
-import { delay, forkJoin, switchMap } from 'rxjs';
+import { delay, finalize, forkJoin, switchMap } from 'rxjs';
 
 import { PostService } from '../../../../services/post/post.service';
 import { CommentService } from '../../../../services/comment/comment.service';
@@ -56,6 +56,7 @@ export class PostDetailComponent implements OnInit {
   paginatedComments = signal<PaginatedComment | null>(null)
   userId?: number;
   loading = signal(false);
+  loadingComments = signal(false)
 
   @ViewChild(FormGroupDirective) formDir!: FormGroupDirective;
 
@@ -82,14 +83,15 @@ export class PostDetailComponent implements OnInit {
       }),
       delay(300),
     )
-    .subscribe( {
-    next:  ([respPost, respComment]) => {
-      this.post.set(respPost)
-      this.paginatedComments.set(respComment)
-      this.loading.set(false);
-    },
-    error: () => this.loading.set(false)
+    .subscribe({
+      next:  ([respPost, respComment]) => {
+        this.post.set(respPost)
+        this.paginatedComments.set(respComment)
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
     })
+
     this.storageSV.get('logged-user').then(resp => {
       if(resp && resp !== null){
         this.userId = resp.id
@@ -105,7 +107,13 @@ export class PostDetailComponent implements OnInit {
     
   private listComments(page='1'){
     if(this.post() !== null){
-      this.commentSV.getComments(page, String(this.post()!.id)).subscribe(resp => {
+      this.loadingComments.set(true);
+      this.commentSV.getComments(page, String(this.post()!.id))
+      .pipe(
+        delay(300),
+        finalize(() => this.loadingComments.set(false))
+      )
+      .subscribe(resp => {
         this.paginatedComments.set(resp);
       });
     }
