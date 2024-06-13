@@ -20,13 +20,13 @@
                     }
                 </mat-card-content>
                 </div>
-            <app-paginator
-                [itemsPerPage]="itemsPerPage"
-                [totalPages]="paginatedObject()?.total_pages || 0"
-                [totalItems]="paginatedObject()?.total_count || 0"
-                (onChangeClick)="changePage($event)"
-            />
         }
+        <app-paginator
+            [itemsPerPage]="itemsPerPage"
+            [totalPages]="paginatedObject()?.total_pages || 0"
+            [totalItems]="paginatedObject()?.total_count || 0"
+            (onChangeClick)="changePage($event)"
+        />
 </mat-card>
 @if (isLogged()) {
     <div class="add-button">

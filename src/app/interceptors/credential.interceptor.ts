@@ -1,10 +1,14 @@
-import { HttpContext, HttpContextToken, HttpHeaders, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
-import { getCookie, setCookie } from 'typescript-cookie';
+import { HttpContext, HttpContextToken, HttpInterceptorFn } from '@angular/common/http';
+import { getCookie } from 'typescript-cookie';
 
 const ADD_CREDENTIALS = new HttpContextToken<boolean>(() => true);
 
-export function addCredentials() {
+export function withoutCredentials() {
   return new HttpContext().set(ADD_CREDENTIALS, false);
+}
+
+export function credentialToken(){
+  return ADD_CREDENTIALS;
 }
 
 export const credentialInterceptor: HttpInterceptorFn = (req, next) => {

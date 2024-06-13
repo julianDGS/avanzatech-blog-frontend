@@ -4,7 +4,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment'
 
 import { ToastrService } from 'ngx-toastr';
-import { addCredentials } from '../../interceptors/credential.interceptor';
+import { withoutCredentials } from '../../interceptors/credential.interceptor';
 
 
 
@@ -23,7 +23,7 @@ export class HttpService {
     if (credentials){
       observable$ = this.http.get<T>(`${environment.api_url}/${url}`);
     } else {
-      observable$ = this.http.get<T>(`${environment.api_url}/${url}`, {context: addCredentials()});
+      observable$ = this.http.get<T>(`${environment.api_url}/${url}`, {context: withoutCredentials()});
     }
     return observable$.pipe(
       catchError(err => {
@@ -37,7 +37,7 @@ export class HttpService {
     if (credentials){
       observable$ = this.http.post<T>(`${environment.api_url}/${url}`, request)
     } else {
-      observable$ = this.http.post<T>(`${environment.api_url}/${url}`, request, {context: addCredentials()})
+      observable$ = this.http.post<T>(`${environment.api_url}/${url}`, request, {context: withoutCredentials()})
     }
     return observable$.pipe(
       catchError(err => {
@@ -51,7 +51,7 @@ export class HttpService {
     if (credentials){
       observable$ = this.http.put<T>(`${environment.api_url}/${url}`, request)
     } else {
-      observable$ = this.http.put<T>(`${environment.api_url}/${url}`, request, {context: addCredentials()})
+      observable$ = this.http.put<T>(`${environment.api_url}/${url}`, request, {context: withoutCredentials()})
     }
     return observable$.pipe(
       catchError(err => {
@@ -65,7 +65,7 @@ export class HttpService {
     if (credentials){
       observable$ = this.http.patch<T>(`${environment.api_url}/${url}`, request)
     } else {
-      observable$ = this.http.patch<T>(`${environment.api_url}/${url}`, request, {context: addCredentials()})
+      observable$ = this.http.patch<T>(`${environment.api_url}/${url}`, request, {context: withoutCredentials()})
     }
     return observable$.pipe(
       catchError(err => {
@@ -79,7 +79,7 @@ export class HttpService {
     if (credentials){
       observable$ = this.http.delete<T>(`${environment.api_url}/${url}`)
     } else {
-      observable$ = this.http.delete<T>(`${environment.api_url}/${url}`, {context: addCredentials()})
+      observable$ = this.http.delete<T>(`${environment.api_url}/${url}`, {context: withoutCredentials()})
     }
     return observable$.pipe(
       catchError(err => {
