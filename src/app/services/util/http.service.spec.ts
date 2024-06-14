@@ -8,7 +8,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { credentialInterceptor, credentialToken } from '../../interceptors/credential.interceptor';
 
 
-fdescribe('HttpService', () => {
+describe('HttpService', () => {
   let service: HttpService;
   let httpController: HttpTestingController;
   let toastrSpy: jasmine.SpyObj<ToastrService>;
@@ -45,7 +45,7 @@ fdescribe('HttpService', () => {
     req.flush('Failed to connect with server', {status: 0, statusText: 'No connection available'})
   })
 
-  describe('GET method tests', () => {
+  describe('GET method', () => {
     it('should make a get request to the API url with credentials', () => {
         service.get(url).subscribe();
         const req = httpController.expectOne(`${environment.api_url}/${url}`);
@@ -122,7 +122,7 @@ fdescribe('HttpService', () => {
     });
   })
 
-  describe('PUT method tests', () => {  
+  describe('PUT method', () => {  
     it('should make a put request to the API url with credentials and x-csrftoken', () => {
       document.cookie = 'csrftoken=fake-csrf-id';
       service.put(url, {}).subscribe();
@@ -162,7 +162,7 @@ fdescribe('HttpService', () => {
     });
   })
 
-  describe('PATCH method tests', () => {
+  describe('PATCH method', () => {
     it('should make a patch request to the API url with credentials and x-csrftoken', () => {
       document.cookie = 'csrftoken=fake-csrf-id';
       service.patch(url, {}).subscribe();
@@ -202,7 +202,7 @@ fdescribe('HttpService', () => {
     });
   })
 
-  describe('DELETE method tests', () => {
+  describe('DELETE method', () => {
     it('should make a delete request to the API url with credentials and x-csrftoken', () => {
       document.cookie = 'csrftoken=fake-csrf-id';
       service.delete(url).subscribe();
