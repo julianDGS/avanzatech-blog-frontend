@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { StorageService } from './storage.service';
 
-fdescribe('StorageService', () => {
+describe('StorageService', () => {
   let service: StorageService;
   const itemKey = 'test-item';
   const itemValue = {value: 'test-item-value'}
@@ -21,7 +21,7 @@ fdescribe('StorageService', () => {
     const resp = await service.get(itemKey);
     expect(resp.hasOwnProperty('value')).toBeTruthy();
     expect(resp.value).toEqual(itemValue.value);
-    localStorage.removeItem(itemKey);
+    localStorage.clear();
   })
 
   it('should handle non defined value when get from local storage', async () => {
