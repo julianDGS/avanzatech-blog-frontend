@@ -29,6 +29,8 @@ export class LoginComponent {
     .subscribe({
       next: (resp) => {
         this.route.navigate(['/']);
+      },
+      error: (err) => {
       }
     })
   }
