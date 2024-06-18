@@ -32,7 +32,7 @@ export class AuthService {
   isNoAuthAction(): Promise<boolean> {
     return new Promise(async (resolve) => {
       const logged = await this.storageSV.get('logged-user');
-      if (logged && logged !== '') {
+      if (logged && logged !== null) {
           this.router.navigateByUrl('', {replaceUrl: true})
           resolve(false);
       } else {

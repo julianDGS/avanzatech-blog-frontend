@@ -45,6 +45,13 @@ describe('HttpService', () => {
     req.flush('Failed to connect with server', {status: 0, statusText: 'No connection available'})
   })
 
+  it('should complete url', () => {
+    service.get(url).subscribe();
+    const req = httpController.expectOne(`${environment.api_url}/${url}`)
+    expect(req.request.url).toEqual(`${environment.api_url}/${url}`)
+    req.flush({})
+  })
+
   describe('GET method', () => {
     it('should make a get request to the API url with credentials', () => {
         service.get(url).subscribe();

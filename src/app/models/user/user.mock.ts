@@ -1,3 +1,4 @@
+import { AuthRequest } from "../auth/login.model";
 import { User } from "./user.model";
 import { faker } from "@faker-js/faker"
 
@@ -13,4 +14,14 @@ export const generateOneUser = (): User => {
         name: 'Team 1'
       }
     };
+  }
+
+  export const generateRegisterRequest = (): AuthRequest => {
+    return {
+      password: '1234',
+      email: 'user1@mail.com',
+      name: 'user',
+      last_name: 'one',
+      confirm_password: '1234'
+    }
   }

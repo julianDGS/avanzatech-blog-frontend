@@ -10,7 +10,7 @@ import { generateOneUser } from '../../../models/user/user.mock';
 import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let authSvSpy: jasmine.SpyObj<AuthService>;
