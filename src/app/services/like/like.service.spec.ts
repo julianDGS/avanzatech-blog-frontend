@@ -8,7 +8,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { provideToastr } from 'ngx-toastr';
 import { environment } from '../../../environments/environment';
 
-fdescribe('LikeService', () => {
+describe('LikeService', () => {
   let service: LikeService;
   let httpController: HttpTestingController;
   let httpSv: HttpService;

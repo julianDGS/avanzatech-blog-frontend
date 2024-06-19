@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../util/http.service';
 import { PaginatedLike } from '../../models/like/like.model';
-import { PaginatedComment } from '../../models/comment/comment.model';
+import { Comment, PaginatedComment } from '../../models/comment/comment.model';
 import { MessageModel } from '../../models/util/message.model';
 
 @Injectable({
@@ -23,6 +23,6 @@ export class CommentService {
   }
 
   deleteComment(comment_id: number){
-    return this.http.delete(`comment/${comment_id}`);
+    return this.http.delete(`comment/${comment_id}/`);
   }
 }

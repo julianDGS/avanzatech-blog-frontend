@@ -15,5 +15,5 @@ export interface Comment {
     comment:    string;
     created_at: Date;
     post:       Pick<Post, 'id' | 'title'>;
-    user:       Omit<User, 'name' | 'lastname' | 'team'>;
+    user:       Omit<User, 'name' | 'last_name' | 'team'>;
 }
