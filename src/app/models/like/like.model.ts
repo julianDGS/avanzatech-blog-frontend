@@ -13,5 +13,5 @@ export interface PaginatedLike {
 export interface Like {
     id:   number;
     post: Pick<Post, 'id' | 'title'>;
-    user: Omit<User, 'name' | 'lastname' | 'team'>;
+    user: Omit<User, 'name' | 'last_name' | 'team'>;
 }

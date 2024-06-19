@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../util/http.service';
-import { PaginatedLike } from '../../models/like/like.model';
+import { Like, PaginatedLike } from '../../models/like/like.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class LikeService {
   }
 
   createLike(id: number) {
-    return this.http.post('like/', {post_id: id});
+    return this.http.post<Like>('like/', {post_id: id});
   }
 
   deleteLike(postId: number) {

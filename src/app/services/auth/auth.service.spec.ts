@@ -38,11 +38,10 @@ describe('AuthService', () => {
     storageSvSpy = jasmine.createSpyObj('StorageService', ['get']);
     TestBed.configureTestingModule({
       providers: [
-        // provideHttpClientTesting(),
         // provideHttpClient(),
+        // provideHttpClientTesting(),
         // provideToastr(),
         provideRouter([]),
-        HttpService,
         AuthService,
         {provide: HttpService, useValue: httpSvSpy},
         {provide: StorageService, useValue: storageSvSpy}
