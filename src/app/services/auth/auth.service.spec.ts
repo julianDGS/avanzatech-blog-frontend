@@ -10,7 +10,7 @@ import { MessageModel } from '../../models/util/message.model';
 import { generateRegisterRequest } from '../../models/user/user.mock';
 import { Router, provideRouter } from '@angular/router';
 
-fdescribe('AuthService', () => {
+describe('AuthService', () => {
   // let httpController: HttpTestingController;
   // let httpSv: HttpService;
   let service: AuthService;

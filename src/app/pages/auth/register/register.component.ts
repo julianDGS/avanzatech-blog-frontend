@@ -27,7 +27,8 @@ export class RegisterComponent {
           progressBar: true
         })
         this.route.navigate(['auth']);
-      }
+      },
+      error: () => {}
     })
   }
 
