@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 import { HttpService } from '../util/http.service';
 import { generateOneComment, generatePaginatedComment } from '../../models/comment/comment.mock';
 
-fdescribe('Commentservice', () => {
+describe('Commentservice', () => {
   let service: CommentService;
   let httpController: HttpTestingController;
   let httpSv: HttpService;

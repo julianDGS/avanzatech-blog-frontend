@@ -3,7 +3,7 @@ General parent editor classes
 */
 .ql-container {
   min-height: 7rem;
-  height: 100%;
+  height: 8rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -39,9 +39,14 @@ Reactive form styles
 quill-editor.ng-dirty.ng-invalid .ql-container.ql-snow {
   border-bottom: 1px solid var(--mdc-filled-text-field-error-caret-color);
   caret-color: var(--mdc-filled-text-field-error-caret-color);
+  transition: border-bottom 150ms ease;
+  &:focus-within{
+    border-bottom: 2px solid var(--mdc-filled-text-field-error-caret-color);
+  }
 }
-quill-editor.ng-dirty.ng-valid .ql-container.ql-snow {
-  border-bottom: 1px solid var(--mdc-filled-text-field-input-text-color);
+quill-editor.ng-dirty.ng-valid .ql-container.ql-snow:focus-within{
+  border-bottom: 2px solid var(--mat-option-selected-state-label-text-color);
+  transition: border-bottom 150ms ease;
 }
 
 
