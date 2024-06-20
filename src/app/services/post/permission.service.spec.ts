@@ -5,7 +5,7 @@ import { HttpService } from '../util/http.service';
 import { PermissionResponse } from '../../models/post/permission.model';
 import { of, throwError } from 'rxjs';
 
-fdescribe('PermissionService', () => {
+describe('PermissionService', () => {
   let service: PermissionService;
   let httpSvSpy: jasmine.SpyObj<HttpService>;
 
