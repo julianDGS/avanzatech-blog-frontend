@@ -8,7 +8,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { provideToastr } from 'ngx-toastr';
 import { HttpService } from '../util/http.service';
 
-fdescribe('PostService', () => {
+describe('PostService', () => {
   let service: PostService;
   let httpController: HttpTestingController;
   let httpSv: HttpService;

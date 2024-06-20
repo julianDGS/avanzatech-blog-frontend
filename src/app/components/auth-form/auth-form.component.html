@@ -64,8 +64,9 @@
             }
             <div class="field">
                 <mat-form-field >
-                    <mat-label>Password</mat-label>
+                    <mat-label for="password">Password</mat-label>
                     <input matInput
+                        id="password"
                         [type]="hide() ? 'password' : 'text'"
                         formControlName="password"
                     >
@@ -86,8 +87,9 @@
             @if (!login) {
                 <div class="field">
                     <mat-form-field >
-                        <mat-label>Confirm Password</mat-label>
+                        <mat-label for="confirm_password">Confirm Password</mat-label>
                         <input matInput
+                            id="confirm_password"
                             [type]="hideConfirm() ? 'password' : 'text'"
                             formControlName="confirm_password"
                         >
@@ -101,7 +103,7 @@
                                 }@else if (authForm.controls['confirm_password'].hasError('minlength')) {
                                     <span>The last name should contain at least {{authForm.controls['confirm_password'].errors!['minlength'].requiredLength}} characters.</span>
                                 }@else if (authForm.controls['confirm_password'].hasError('matcherror')) {
-                                    <span>Passwords do not match</span>
+                                    <span id="not-match">Passwords do not match</span>
                                 }
                             </mat-error>
                         }
