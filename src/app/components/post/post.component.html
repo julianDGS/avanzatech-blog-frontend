@@ -33,7 +33,7 @@
                     {{post?.likes}}
                 </button>
                 @if (!isDetail) {
-                    <a mat-button [routerLink]="['/p/detail', post?.id]">
+                    <a test-id="comment-btn" mat-button [routerLink]="['/p/detail', post?.id]">
                         <mat-icon class="material-symbols-outlined">forum</mat-icon>
                         {{post?.comments}}
                     </a>
@@ -41,19 +41,19 @@
             </div>
             <div class="flex items-center gap-2">
                 @if (isLogged) {
-                    <button mat-icon-button 
+                    <button test-id="like-btn" mat-icon-button 
                         [color]="post?.post_liked ? 'warn' : ''" 
                         (click)="onLikeAction()"
                     >
                         <mat-icon [class.material-symbols-outlined]="!post?.post_liked">favorite</mat-icon>
                     </button>
                     @if (!isDetail) {
-                        <a mat-icon-button [routerLink]="['/p/detail', post?.id]"><mat-icon>chat</mat-icon></a>
+                        <a test-id="comment-a" mat-icon-button [routerLink]="['/p/detail', post?.id]"><mat-icon>chat</mat-icon></a>
                     }
                 }
                 @if (canEdit) {
-                    <a mat-icon-button [routerLink]="['/p/update', post?.id]"><mat-icon>edit</mat-icon></a>
-                    <button mat-icon-button (click)="openDialog('0ms', '0ms')"><mat-icon>delete</mat-icon></button>
+                    <a test-id="edit-a" mat-icon-button [routerLink]="['/p/update', post?.id]"><mat-icon>edit</mat-icon></a>
+                    <button id="delete-btn" mat-icon-button (click)="openDialog('0ms', '0ms')"><mat-icon>delete</mat-icon></button>
                 }
             </div>
         </div>

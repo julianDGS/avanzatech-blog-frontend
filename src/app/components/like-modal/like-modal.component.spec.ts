@@ -5,7 +5,7 @@ import { generatePaginatedLike } from '../../models/like/like.mock';
 import { By } from '@angular/platform-browser';
 import { PaginatorComponent } from '../paginator/paginator.component';
 
-fdescribe('LikeModalComponent', () => {
+describe('LikeModalComponent', () => {
   let component: LikeModalComponent;
   let fixture: ComponentFixture<LikeModalComponent>;
   const mockPagLike = generatePaginatedLike();

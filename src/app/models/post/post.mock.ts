@@ -21,7 +21,7 @@ export const generatePaginatedPost = (): PaginatedPost => {
       createdAt:    faker.date.anytime(),
       title:        faker.word.words(3),
       content:      faker.word.words(5),
-      content_html: faker.word.words(20),
+      content_html: faker.word.words(55),
       excerpt:      '',
       author:       generateOneUser(),
       permissions:  generatePermissions(),
