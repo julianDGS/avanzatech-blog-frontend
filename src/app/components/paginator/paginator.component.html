@@ -5,18 +5,18 @@
         </div>
         <div class="flex items-center">
             @if (isPostPaginator) {
-                <button mat-icon-button (click)="firstPage()" [disabled]="currentPage() === 1">
+                <button id="first-btn" mat-icon-button (click)="firstPage()" [disabled]="currentPage() === 1">
                     <mat-icon>first_page</mat-icon>
                 </button>
             }
-            <button mat-icon-button (click)="previousPage()" [disabled]="currentPage() === 1">
+            <button id="prev-btn" mat-icon-button (click)="previousPage()" [disabled]="currentPage() === 1">
                 <mat-icon class="text-base flex items-center justify-center">arrow_back_ios</mat-icon>
             </button>
-            <button mat-icon-button (click)="nextPage()" [disabled]="currentPage() === totalPages">
+            <button id="next-btn" mat-icon-button (click)="nextPage()" [disabled]="currentPage() === totalPages">
                 <mat-icon class="text-base flex items-center justify-center">arrow_forward_ios</mat-icon>
             </button>
             @if (isPostPaginator) {
-                <button mat-icon-button (click)="lastPage()" [disabled]="currentPage() === totalPages">
+                <button id="last-btn" mat-icon-button (click)="lastPage()" [disabled]="currentPage() === totalPages">
                     <mat-icon>last_page</mat-icon>
                 </button>
             }
