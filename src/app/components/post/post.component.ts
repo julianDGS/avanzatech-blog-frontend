@@ -64,7 +64,7 @@ export class PostComponent implements AfterViewChecked{
 
   constructor(
     private likeSV: LikeService,
-    private dialog: MatDialog,
+    public dialog: MatDialog,
     private renderer: Renderer2,
     private router: Router
   ){}
