@@ -10,7 +10,7 @@
                 <div class="md:px-14 px-5">
                     <mat-card-content>
                     @for (post of paginatedObject()?.results; track $index) {
-                    <app-post
+                        <app-post
                             [isLogged]="isLogged()"
                             [post]="post"
                             [canEdit]="post.can_edit!"

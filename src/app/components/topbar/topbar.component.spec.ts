@@ -7,13 +7,12 @@ import { AuthService } from '../../services/auth/auth.service';
 import { Router, provideRouter } from '@angular/router';
 import { generateOneUser } from '../../models/user/user.mock';
 import { ToastrService } from 'ngx-toastr';
-import { MatIconRegistry } from '@angular/material/icon';
-import { By, DomSanitizer } from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
-fdescribe('TopbarComponent', () => {
+describe('TopbarComponent', () => {
   let component: TopbarComponent;
   let fixture: ComponentFixture<TopbarComponent>;
   let themeSvSpy: jasmine.SpyObj<ThemeService>;
