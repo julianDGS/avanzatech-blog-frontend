@@ -38,7 +38,7 @@ export class TopbarComponent implements OnInit {
     private authSV: AuthService,
     private storageSV: StorageService,
     private themeSV: ThemeService,
-    private dialog: MatDialog,
+    public dialog: MatDialog,
     private router: Router,
     private toastr: ToastrService,
     private matIconRegistry: MatIconRegistry,
@@ -66,8 +66,9 @@ export class TopbarComponent implements OnInit {
       if(resp && resp !== null){
         this.loggedUser.set({id: resp.id, name: resp.nickname});
       }
-      return this.storageSV.get('theme')
-    }).then(resp => {
+    })
+    
+    this.storageSV.get('theme').then(resp => {
       if(resp && resp !== null && resp === 'light'){
         this.dark_mode.set(false)
       }

@@ -19,12 +19,12 @@
                 }
             </button>
             @if (loggedUser()) {
-                <span class="flex items-center gap-2 mr-6">
+                <span test-id="welcome-div" class="flex items-center gap-2 mr-6">
                     <img class="w-8 img-avatar" [src]="'https://picsum.photos/id/' + (loggedUser()!.id + 200) + '/200'" alt="user">
                     {{'Welcome, ' + loggedUser()?.name}}
                 </span>
             }
-            <button mat-mini-fab 
+            <button test-id="log-btn" mat-mini-fab 
                 color="basic" 
                 (click)="onLogAction()" 
                 [matTooltip]="loggedUser() === null ? 'Login' : 'Logout'"

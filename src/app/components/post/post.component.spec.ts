@@ -19,7 +19,7 @@ import { defer, delay, of } from 'rxjs';
 //   }
 // };
 
-fdescribe('PostComponent', () => {
+describe('PostComponent', () => {
   let component: PostComponent;
   let fixture: ComponentFixture<PostComponent>;
   let likeSvSpy: jasmine.SpyObj<LikeService>;
@@ -59,7 +59,7 @@ fdescribe('PostComponent', () => {
 
   it('should load content with show-more-button after view checked', () => {
     const anchor = component.detailElement.nativeElement.children[0];
-    expect(component.detailElement.nativeElement.innerText).toEqual(post.excerpt+"... Show more");
+    expect(component.detailElement.nativeElement.innerText).toEqual(post.excerpt.trim()+"... Show more");
     expect(anchor.tagName).toEqual('A');
     expect(anchor.innerHTML).toEqual('... Show more');
   });
