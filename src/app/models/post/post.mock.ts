@@ -8,9 +8,9 @@ export const generatePaginatedPost = (): PaginatedPost => {
     return {
       next:         faker.internet.url(),
       previous:     faker.internet.url(),
-      total_count:  30,
+      total_count:  10,
       current_page: 1,
-      total_pages:  3,
+      total_pages:  2,
       results:      generateManyPosts()
     };
   }
@@ -28,7 +28,6 @@ export const generatePaginatedPost = (): PaginatedPost => {
       likes:        5,
       comments:     2,
       post_liked:   true,
-      can_edit:     true
     }
     obj.excerpt = obj.content_html.substring(200);
     return obj;
@@ -36,29 +35,34 @@ export const generatePaginatedPost = (): PaginatedPost => {
 
   export const generateManyPosts = (): Post[] => {
     const posts: Post[] = [];
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 10; i++) {
       posts.push(generateOnePost());
     }
     return posts;
   }
 
   export const generatePermissions = (): Permissions => {
+    const permissionName = ['read', 'edit', 'none'];
+    const publicPerm = faker.number.int(3);
+    const auth = faker.number.int(3);
+    const team = faker.number.int(3);
+    const author = faker.number.int(3);
     return {
       public: {
-        id: 1,
-        name:  'author'
+        id: publicPerm,
+        name: permissionName[publicPerm]
       },
       auth:   {
-        id: 2,
-        name:  'team'
+        id: auth,
+        name:  permissionName[auth]
       },
       team:   {
-        id: 3,
-        name:  'auth'
+        id: team,
+        name:  permissionName[team]
       },
       author: {
-        id: 4,
-        name:  'public'
+        id: author,
+        name:  permissionName[author]
       },
     }
   }

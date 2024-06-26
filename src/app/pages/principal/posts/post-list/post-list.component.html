@@ -9,7 +9,7 @@
             } @else {
                 <div class="md:px-14 px-5">
                     <mat-card-content>
-                    @for (post of paginatedObject()?.results; track $index) {
+                    @for (post of paginatedPost()?.results; track $index) {
                         <app-post
                             [isLogged]="isLogged()"
                             [post]="post"
@@ -23,8 +23,8 @@
         }
         <app-paginator
             [itemsPerPage]="itemsPerPage"
-            [totalPages]="paginatedObject()?.total_pages || 0"
-            [totalItems]="paginatedObject()?.total_count || 0"
+            [totalPages]="paginatedPost()?.total_pages || 0"
+            [totalItems]="paginatedPost()?.total_count || 0"
             (onChangeClick)="changePage($event)"
         />
 </mat-card>

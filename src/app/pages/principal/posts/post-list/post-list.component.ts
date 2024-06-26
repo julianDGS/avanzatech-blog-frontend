@@ -43,7 +43,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class PostListComponent implements OnInit, OnDestroy {
   
-  paginatedObject = signal<PaginatedPost | null>(null)
+  paginatedPost = signal<PaginatedPost | null>(null)
   isLogged = signal(false);
   itemsPerPage = 10;
   filterSubscription?: Subscription;
@@ -113,7 +113,7 @@ export class PostListComponent implements OnInit, OnDestroy {
       finalize(() => this.loading.set(false)),
     )
     .subscribe((resp) => {
-      this.paginatedObject.set(resp);
+      this.paginatedPost.set(resp);
     })
   }
 
