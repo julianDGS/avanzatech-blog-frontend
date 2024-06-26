@@ -70,60 +70,60 @@ fdescribe('PostCreateComponent', () => {
     expect(component.loading()).toBeFalse();
   }));
 
-  // it('should change names of the categories on init', () => {
+  it('should change names of the categories on init', () => {
 
-  // });
+  });
   
-  // it('should load default permissions if post to update is not provided on init', () => {
+  it('should load default permissions if post to update is not provided on init', () => {
+    
+  });
 
-  // });
+  it('should set post and load form with permissions if post to update is provided on init', () => {
 
-  // it('should set post and load form with permissions if post to update is provided on init', () => {
+  });
 
-  // });
+  it('should set loading to false on error getting permissions', () => {
 
-  // it('should set loading to false on error getting permissions', () => {
+  });
 
-  // });
+  it('should set loading to false on error getting categories', () => {
 
-  // it('should set loading to false on error getting categories', () => {
+  });
 
-  // });
+  it('should set loading to false on error getting post', () => {
 
-  // it('should set loading to false on error getting post', () => {
+  });
 
-  // });
+  it('should have valid form if all controls are valid', () => {
 
-  // it('should have valid form if all controls are valid', () => {
+  });
 
-  // });
+  it('should have an invalid form if title control are invalid', () => {
 
-  // it('should have an invalid form if title control are invalid', () => {
+  });
 
-  // });
+  it('should have an invalid form if content control are invalid', () => {
 
-  // it('should have an invalid form if content control are invalid', () => {
+  });
 
-  // });
+  it('should call service to create a post if post is not provided', () => {
 
-  // it('should call service to create a post if post is not provided', () => {
+  });
 
-  // });
+  it('should call service to update a post if post is provided', () => {
 
-  // it('should call service to update a post if post is provided', () => {
+  });
 
-  // });
+  it('should show loading spinner if loading is true', () => {
 
-  // it('should show loading spinner if loading is true', () => {
+  });
 
-  // });
+  it('should show form if loading is false', () => {
 
-  // it('should show form if loading is false', () => {
+  });
 
-  // });
+  it('should show disable submit and cancel buttons if form is invalid', () => {
 
-  // it('should show disable submit and cancel buttons if form is invalid', () => {
-
-  // });
+  });
 
 });
