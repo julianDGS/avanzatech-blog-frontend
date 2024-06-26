@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker"
 
 export const generateOneUser = (): User => {
     return {
-      id: faker.number.int(100),
+      id: faker.number.int(10),
       name: faker.person.firstName(),
       last_name: faker.person.lastName(),
       email: faker.internet.email(),

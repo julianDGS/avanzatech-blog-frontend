@@ -36,7 +36,7 @@ describe('PostService', () => {
   });
 
   it('should call http service to create a post', (doneFn) => {
-    const mockPost = generateOnePost()
+    const mockPost = generateOnePost(1)
     const mockPostRequest = generatePostRequest(mockPost)
     const mockResponse = generatePostResponse(mockPost);
     spyOn(httpSv, 'post').and.callThrough();
@@ -55,7 +55,7 @@ describe('PostService', () => {
 
   it('should return error when post creation fails', (done) => {
     const errorResponse = {error: 'error'};
-    const mockPost = generateOnePost()
+    const mockPost = generateOnePost(1)
     const mockPostRequest = generatePostRequest(mockPost)
     spyOn(httpSv, 'post').and.callThrough()
 
@@ -213,7 +213,7 @@ describe('PostService', () => {
   })
 
   it('should call http service to update a post', (doneFn) => {
-    const mockPost = generateOnePost()
+    const mockPost = generateOnePost(1)
     const mockPostRequest = generatePostRequest(mockPost);
     mockPostRequest.title = 'other';
     const mockResponse = generatePostResponse(mockPost);
@@ -235,7 +235,7 @@ describe('PostService', () => {
 
   it('should return error when update post fails', (done) => {
     const errorResponse = {error: 'error'};
-    const mockPost = generateOnePost()
+    const mockPost = generateOnePost(1)
     const mockPostRequest = generatePostRequest(mockPost);
     const url = `post/${mockPost.id}/`
     spyOn(httpSv, 'put').and.callThrough()

@@ -15,9 +15,9 @@ export const generatePaginatedPost = (): PaginatedPost => {
     };
   }
 
-  export const generateOnePost = (): Post => {
+  export const generateOnePost = (id: number): Post => {
     const obj = {
-      id:           faker.number.int(100),
+      id:           id,
       createdAt:    faker.date.anytime(),
       title:        faker.word.words(3),
       content:      faker.word.words(5),
@@ -29,6 +29,7 @@ export const generatePaginatedPost = (): PaginatedPost => {
       comments:     2,
       post_liked:   true,
     }
+    obj.author.id = id;
     obj.excerpt = obj.content_html.substring(200);
     return obj;
   }
@@ -36,7 +37,7 @@ export const generatePaginatedPost = (): PaginatedPost => {
   export const generateManyPosts = (): Post[] => {
     const posts: Post[] = [];
     for (let i = 0; i < 10; i++) {
-      posts.push(generateOnePost());
+      posts.push(generateOnePost(i+1));
     }
     return posts;
   }

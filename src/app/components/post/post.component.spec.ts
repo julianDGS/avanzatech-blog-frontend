@@ -47,7 +47,7 @@ describe('PostComponent', () => {
     likeSvSpy = TestBed.inject(LikeService) as jasmine.SpyObj<LikeService>;
     // dialogSpy = TestBed.inject(MatDialog);
     component = fixture.componentInstance;
-    post = generateOnePost();
+    post = generateOnePost(1);
     component.paginatedLike = generatePaginatedLike();
     component.post = {...post};
     fixture.detectChanges();
