@@ -5,7 +5,7 @@ export const generatePaginatedComment = (): PaginatedComment => {
     return {
       next:         faker.internet.url(),
       previous:     faker.internet.url(),
-      total_count:  30,
+      total_count:  20,
       current_page: 1,
       total_pages:  3,
       results:      generateManyComments()
@@ -31,7 +31,7 @@ export const generatePaginatedComment = (): PaginatedComment => {
 
   export const generateManyComments = (): Comment[] => {
     const comments: Comment[] = [];
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 20; i++) {
       comments.push(generateOneComment());
     }
     return comments;

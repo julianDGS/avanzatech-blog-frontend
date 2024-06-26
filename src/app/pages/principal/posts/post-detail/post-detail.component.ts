@@ -58,7 +58,7 @@ export class PostDetailComponent implements OnInit {
   loading = signal(false);
   loadingComments = signal(false)
 
-  @ViewChild(FormGroupDirective) formDir!: FormGroupDirective;
+  @ViewChild(FormGroupDirective) formDir?: FormGroupDirective;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -67,7 +67,7 @@ export class PostDetailComponent implements OnInit {
     private fb: FormBuilder,
     private toastrSV: ToastrService,
     private storageSV: StorageService,
-    private dialog: MatDialog
+    public dialog: MatDialog
   ){
     this.buildForm();
   }
@@ -76,12 +76,12 @@ export class PostDetailComponent implements OnInit {
     this.loading.set(true);
     this.activeRoute.params
     .pipe(
+      delay(300),
       switchMap(({id}) => {
         const post$ = this.postSV.getPost(id);
-        const comments$ = this.commentSV.getComments('1', id);
+        const comments$ = this.commentSV.getComments('1', String(id));
         return forkJoin([post$, comments$])
       }),
-      delay(300),
     )
     .subscribe({
       next:  ([respPost, respComment]) => {
@@ -150,7 +150,7 @@ export class PostDetailComponent implements OnInit {
   }
 
   resetForm(){
-    this.formDir.resetForm();
+    this.formDir?.resetForm();
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, id: number): void {

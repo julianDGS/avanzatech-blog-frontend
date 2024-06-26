@@ -7,7 +7,7 @@
                 <app-post
                     [isDetail]="true"
                     [isLogged]="true"
-                    [post]="post()!"
+                    [post]="post() || undefined"
                 />
             </div>
             @if (userId) {
@@ -47,7 +47,7 @@
                 <h2 class="mb-1">Comments</h2>
             </div>
             <div class="block">
-                @if (loading() || loadingComments()) {
+                @if (loadingComments()) {
                     <mat-spinner class="m-auto mt-3 mb-3" [diameter]="70" [strokeWidth]="5"></mat-spinner>
                 }@else {
                     @for (comment of paginatedComments()?.results; track $index) {

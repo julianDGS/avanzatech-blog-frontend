@@ -87,8 +87,8 @@ export class PostListComponent implements OnInit, OnDestroy {
       this.listPosts();
     })
 
-    this.listPosts();
     this.loadUser();
+    this.listPosts();
   }
 
   private async loadUser(){
@@ -106,10 +106,10 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.loading.set(true);
     this.postSV.listPosts(page, this.filterValue)
     .pipe(
+      delay(300),
       tap(resp => {
         this.canEdit(resp.results)
       }),
-      delay(300),
       finalize(() => this.loading.set(false)),
     )
     .subscribe((resp) => {
