@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
-import { delay, finalize, of, switchMap } from 'rxjs';
+import { finalize, of, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { PostService } from '../../../../services/post/post.service';
@@ -109,7 +109,6 @@ export class PostCreateComponent implements OnInit{
         }
         return of(null)
       }),
-      delay(300),
     )
     .subscribe({ 
       next: post => {

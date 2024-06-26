@@ -20,7 +20,6 @@ describe('PostDetailComponent', () => {
   let commentSvSpy: jasmine.SpyObj<CommentService>;
   let toastrSvSpy: jasmine.SpyObj<ToastrService>;
   let storageSvSpy: jasmine.SpyObj<StorageService>;
-  let activatedRoute: jasmine.SpyObj<ActivatedRoute>;
   const post = generateOnePost(1);
   const pagComment = generatePaginatedComment();
   const paramId = 1;
@@ -51,7 +50,6 @@ describe('PostDetailComponent', () => {
       commentSvSpy = TestBed.inject(CommentService) as jasmine.SpyObj<CommentService>;
       toastrSvSpy = TestBed.inject(ToastrService) as jasmine.SpyObj<ToastrService>;
       storageSvSpy = TestBed.inject(StorageService) as jasmine.SpyObj<StorageService>;
-      activatedRoute = TestBed.inject(ActivatedRoute) as jasmine.SpyObj<ActivatedRoute>;
       
       postSvSpy.getPost.and.returnValue(of(post));
       commentSvSpy.getComments.and.returnValue(of(pagComment));

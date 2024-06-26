@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker"
 import { Post, PaginatedPost } from "./post.model";
 import { generateOneUser } from "../user/user.mock";
-import { Permissions } from "./permission.model";
 import { PostRequest, PostResponse } from "./post-request.model";
+import { generatePostPermissions } from "./permission.mock";
 
 export const generatePaginatedPost = (): PaginatedPost => {
     return {
@@ -24,7 +24,7 @@ export const generatePaginatedPost = (): PaginatedPost => {
       content_html: faker.word.words(55),
       excerpt:      '',
       author:       generateOneUser(),
-      permissions:  generatePermissions(),
+      permissions:  generatePostPermissions(),
       likes:        5,
       comments:     2,
       post_liked:   true,
@@ -40,32 +40,6 @@ export const generatePaginatedPost = (): PaginatedPost => {
       posts.push(generateOnePost(i+1));
     }
     return posts;
-  }
-
-  export const generatePermissions = (): Permissions => {
-    const permissionName = ['read', 'edit', 'none'];
-    const publicPerm = faker.number.int(3);
-    const auth = faker.number.int(3);
-    const team = faker.number.int(3);
-    const author = faker.number.int(3);
-    return {
-      public: {
-        id: publicPerm,
-        name: permissionName[publicPerm]
-      },
-      auth:   {
-        id: auth,
-        name:  permissionName[auth]
-      },
-      team:   {
-        id: team,
-        name:  permissionName[team]
-      },
-      author: {
-        id: author,
-        name:  permissionName[author]
-      },
-    }
   }
 
   export const generatePostRequest = (post: Post): PostRequest => {
