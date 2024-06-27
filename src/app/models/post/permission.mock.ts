@@ -4,25 +4,25 @@ import { PermissionResponse, Permissions } from "./permission.model";
 const permissionName = ['read', 'edit', 'none'];
 
 export const generatePostPermissions = (): Permissions => {
-  const publicPerm = faker.number.int(3);
-  const auth = faker.number.int(3);
-  const team = faker.number.int(3);
-  const author = faker.number.int(3);
+  const publicPerm = faker.number.int({min: 0, max: 2});
+  const auth = faker.number.int({min: 0, max: 2});
+  const team = faker.number.int({min: 0, max: 2});
+  const author = faker.number.int({min: 0, max: 2});
   return {
     public: {
-      id: publicPerm,
+      id: publicPerm+1,
       name: permissionName[publicPerm]
     },
     auth:   {
-      id: auth,
+      id: auth+1,
       name:  permissionName[auth]
     },
     team:   {
-      id: team,
+      id: team+1,
       name:  permissionName[team]
     },
     author: {
-      id: author,
+      id: author+1,
       name:  permissionName[author]
     },
   }
@@ -50,17 +50,25 @@ export const generateCategories = (): PermissionResponse[] => {
 }
 
 export const generatePermissions = (): PermissionResponse[] => {
-  const posts: PermissionResponse[] = [];
-    for (let i = 0; i < 4; i++) {
-      posts.push(permResponse());
-    }
-    return posts;
+  return [{
+      id: 1,
+      name: permissionName[0] //read
+    },
+    {
+      id: 2,
+      name: permissionName[1] //edit
+    },
+    {
+      id: 3,
+      name: permissionName[2] //none
+    },
+  ]
 }
 
-export const permResponse = (): PermissionResponse => {
-  const number = faker.number.int(3);
-  return {
-    id: number,
-    name: permissionName[number]
-  }
+export const categoryCopy = (categories: PermissionResponse[]): PermissionResponse[] => {
+  return categories.map(category => {return {...category}})
+}
+
+export const permissionCopy = (permissions: PermissionResponse[]): PermissionResponse[] => {
+  return permissions.map(permission => {return {...permission}})
 }
