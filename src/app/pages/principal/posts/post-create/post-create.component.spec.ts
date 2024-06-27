@@ -6,9 +6,11 @@ import { ActivatedRoute, provideRouter } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PostService } from '../../../../services/post/post.service';
 import { PermissionService } from '../../../../services/post/permission.service';
-import { generateCategories, generatePermissions, permissionCopy } from '../../../../models/post/permission.mock';
+import { categoryCopy, generateCategories, generatePermissions, permissionCopy } from '../../../../models/post/permission.mock';
 import { generateOnePost } from '../../../../models/post/post.mock';
 import { defer, delay, of, throwError } from 'rxjs';
+import { PermissionResponse } from '../../../../models/post/permission.model';
+import { Post } from '../../../../models/post/post.model';
 
 fdescribe('PostCreateComponent', () => {
   let component: PostCreateComponent;
@@ -20,6 +22,16 @@ fdescribe('PostCreateComponent', () => {
   const permissions = generatePermissions();
   const categories = generateCategories();
   const post = generateOnePost(1);
+  const formValue = {
+    title: 'tile',
+    content_html: '<p>content</p>',
+    permissions: [
+      {category_id: 1, permission_id: 2},
+      {category_id: 2, permission_id: 2},
+      {category_id: 3, permission_id: 1},
+      {category_id: 4, permission_id: 1},
+    ]
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -39,14 +51,14 @@ fdescribe('PostCreateComponent', () => {
     permSvSpy = TestBed.inject(PermissionService) as jasmine.SpyObj<PermissionService>;
     toastrSvSpy = TestBed.inject(ToastrService) as jasmine.SpyObj<ToastrService>;
     activateRouteSpy= TestBed.inject(ActivatedRoute) as jasmine.SpyObj<ActivatedRoute>;
-    
+  
+
+    activateRouteSpy.params = of({});
     postSvSpy.getPost.and.returnValue(of({...post}));
-    permSvSpy.getCategories.and.returnValue(of(categories));
+    permSvSpy.getCategories.and.returnValue(of(categoryCopy(categories)));
     permSvSpy.getPermissions.and.returnValue(of(permissionCopy(permissions)));
-    activateRouteSpy.params = of();
     
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -54,26 +66,29 @@ fdescribe('PostCreateComponent', () => {
   });
 
   it('should set categories and permissions on init', fakeAsync(() => {
-    permSvSpy.getCategories.and.returnValue(defer(() => of(categories)).pipe(delay(0)));
-    permSvSpy.getPermissions.and.returnValue(defer(() => of(permissions)).pipe(delay(0)));
-    component.ngOnInit();
+    permSvSpy.getCategories.and.returnValue(defer(() => of(categoryCopy(categories))).pipe(delay(0)));
+    permSvSpy.getPermissions.and.returnValue(defer(() => of(permissionCopy(permissions))).pipe(delay(0)));
+    fixture.detectChanges();
     expect(component.loading()).toBeTrue();
     tick();
-    expect(component.categories()).toEqual(categories);
-    expect(component.permissions()).toEqual(permissions);
+    expect(component.categories().length).toEqual(4);
+    expect(component.categories()).toContain({id: 1, name: 'Owner'});
+    expect(component.permissions().length).toEqual(3);
+    expect(component.permissions()).toContain({id: 1, name: 'read only'});
     expect(component.loading()).toBeFalse();
   }));
 
   it('should change names of the permissions on init', fakeAsync(() => {
     component.permissions.set(permissionCopy(permissions));
     permSvSpy.getPermissions.and.returnValue(defer(() => of(permissionCopy(permissions))).pipe(delay(0)));
-    component.ngOnInit();
+    fixture.detectChanges();
     expect(component.permissions()).toEqual(permissions);
     tick();
     expect(component.permissions()).not.toEqual(permissions);
   }));
   
   it('should load default permissions if post to update is not provided on init', () => {
+    fixture.detectChanges();
     const authorControl = component.permissionsForm.controls[0];
     const teamControl = component.permissionsForm.controls[1];
     const authControl = component.permissionsForm.controls[2];
@@ -88,68 +103,46 @@ fdescribe('PostCreateComponent', () => {
     expect(publicControl.get('permission_id')!.value).toEqual(1);
   });
 
-  it('should set post if post to update is provided on init', () => {
-    activateRouteSpy.params = of({id: 1});
-    component.ngOnInit();
-    expect(postSvSpy.getPost).toHaveBeenCalledOnceWith(1);
-    expect(component.post()).toEqual(post);
-  });
-
-  it('should load form with permissions if post to update is provided on init', () => {
-    activateRouteSpy.params = of({id: 1});
-    component.ngOnInit();
-    const authorControl = component.permissionsForm.controls[0];
-    const teamControl = component.permissionsForm.controls[1];
-    const authControl = component.permissionsForm.controls[2];
-    const publicControl = component.permissionsForm.controls[3];
-    expect(authorControl.get('category_id')!.value).toEqual(1);
-    expect(teamControl.get('category_id')!.value).toEqual(2);
-    expect(authControl.get('category_id')!.value).toEqual(3);
-    expect(publicControl.get('category_id')!.value).toEqual(4);
-    expect(authorControl.get('permission_id')!.value).toEqual(post.permissions.author.id);
-    expect(teamControl.get('permission_id')!.value).toEqual(post.permissions.team.id);
-    expect(authControl.get('permission_id')!.value).toEqual(post.permissions.auth.id);
-    expect(publicControl.get('permission_id')!.value).toEqual(post.permissions.public.id);
-    expect(component.postForm.get('title')!.value).toEqual(post.title);
-    expect(component.postForm.get('content_html')!.value).toEqual(post.content_html);
-  });
-
   it('should set loading to false on error getting permissions', () => {
     permSvSpy.getPermissions.and.returnValue(throwError(() => 'error'));
-    component.ngOnInit();
+    fixture.detectChanges();
     expect(component.loading()).toBeFalse();
   });
 
   it('should set loading to false on error getting categories', () => {
     permSvSpy.getCategories.and.returnValue(throwError(() => 'error'));
-    component.ngOnInit();
+    fixture.detectChanges();
     expect(component.loading()).toBeFalse();
   });
 
   it('should set loading to false on error getting post', () => {
     activateRouteSpy.params = of({id: 1});
     postSvSpy.getPost.and.returnValue(throwError(() => 'error'));
-    component.ngOnInit();
+    fixture.detectChanges();
     expect(component.loading()).toBeFalse();
   });
 
   it('should have a valid form if all controls are valid', () => {
-
+    fixture.detectChanges();
+    component.postForm.setValue({...formValue});
+    expect(component.postForm.valid).toBeTrue();
   });
 
   it('should have an invalid form if title control are invalid', () => {
-
+    fixture.detectChanges();
+    const value = {...formValue, title: null};
+    component.postForm.setValue(value);
+    expect(component.postForm.valid).toBeFalse();
   });
 
   it('should have an invalid form if content control are invalid', () => {
-
+    fixture.detectChanges();
+    const value = {...formValue, content_html: null};
+    component.postForm.setValue(value);
+    expect(component.postForm.valid).toBeFalse();
   });
 
-  it('should call service to create a post if post is not provided', () => {
-
-  });
-
-  it('should call service to update a post if post is provided', () => {
+  it('should call service to create a post', () => {
 
   });
 
@@ -164,5 +157,39 @@ fdescribe('PostCreateComponent', () => {
   it('should show disable submit and cancel buttons if form is invalid', () => {
 
   });
+
+  describe('when post to update is provided', () => {
+
+    beforeEach(() => {
+      activateRouteSpy.params = of({id: 1});
+      fixture.detectChanges();
+    })
+
+    it('should set post on init', () => {
+      expect(postSvSpy.getPost).toHaveBeenCalledOnceWith(1);
+      expect(component.post()).toEqual(post);
+    });
+  
+    it('should load form with permissions on init', () => {
+      const authorControl = component.permissionsForm.controls[0];
+      const teamControl = component.permissionsForm.controls[1];
+      const authControl = component.permissionsForm.controls[2];
+      const publicControl = component.permissionsForm.controls[3];
+      expect(authorControl.get('category_id')!.value).toEqual(1);
+      expect(teamControl.get('category_id')!.value).toEqual(2);
+      expect(authControl.get('category_id')!.value).toEqual(3);
+      expect(publicControl.get('category_id')!.value).toEqual(4);
+      expect(authorControl.get('permission_id')!.value).toEqual(post.permissions.author.id);
+      expect(teamControl.get('permission_id')!.value).toEqual(post.permissions.team.id);
+      expect(authControl.get('permission_id')!.value).toEqual(post.permissions.auth.id);
+      expect(publicControl.get('permission_id')!.value).toEqual(post.permissions.public.id);
+      expect(component.postForm.get('title')!.value).toEqual(post.title);
+      expect(component.postForm.get('content_html')!.value).toEqual(post.content_html);
+    });
+
+    it('should call service to update a post', () => {
+
+    });
+  })
 
 });
