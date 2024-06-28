@@ -1,27 +1,32 @@
-# AvanzatechBlogFrontend
+# Blog Avanzatech Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+This is an Angular application where the user can create, view and edit posts based on his permissions. This application consumes the [Blog Avanzatech](https://github.com/julianDGS/avanzatech-blog-backend) Rest API.
 
-## Development server
+## Setup
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Setup using docker
 
-## Code scaffolding
+Clone the repository https://github.com/julianDGS/avanzatech_blog from git hub.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Install docker, docker-compose.
 
-## Build
+2. In the root of the project (where the file docker-compose.yaml is) using a command shell execute:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+    - `sudo docker-compose build`
+    - `sudo docker-compose up`
 
-## Running unit tests
+    First command will install all required dependencies and services, and second one run the web server in http://localhost:4200/
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. Follow the instructions given in [Blog Avanzatech Rest API](https://github.com/julianDGS/avanzatech-blog-backend) to run the backend server.
 
-## Running end-to-end tests
+### Setup without docker
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Clone the repository https://github.com/julianDGS/avanzatech_blog from git hub.
 
-## Further help
+1. Install Angular 17.3.7 if does not exist. You should have a compatible version of node.js (20.13.1), and npm (10.5.2).
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+2. Run `npm install` command to install all necessary dependencies.
+
+3. Run `ng serve` command will up the web server in http://localhost:4200/
+
+4. Follow the instructions given in [Blog Avanzatech Rest API](https://github.com/julianDGS/avanzatech-blog-backend) to run the backend server.
