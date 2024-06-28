@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, signal } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize, of, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -70,7 +70,7 @@ export class PostCreateComponent implements OnInit{
   }
 
   @ViewChild(FormGroupDirective) formDir!: FormGroupDirective;
-  @ViewChild('editor') editorElement?: QuillEditorComponent;
+  @ViewChild('editor') editorElement?: any;
 
   constructor(
     private postSV: PostService,
