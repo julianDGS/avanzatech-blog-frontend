@@ -32,6 +32,27 @@ describe('ThemeService', () => {
       doneFn();
     })
   });
+
+  it('should toggle the value from light to dark', (done) => {
+    spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify("light"));
+    service = TestBed.inject(ThemeService);
+    service.theme$
+    .pipe(
+      take(1),
+      switchMap(value => {
+        expect(value).toBeFalsy();
+        service.toggleTheme();
+        return service.theme$
+      }),
+      take(1)
+    )
+    .subscribe(newValue => {
+      expect(newValue).toBeTruthy();
+      expect(storageServiceMock.set).toHaveBeenCalledTimes(1);
+      expect(storageServiceMock.set).toHaveBeenCalledWith('theme', 'dark');
+      done();
+    });
+  });
   
   describe('', () => {
     
@@ -46,7 +67,7 @@ describe('ThemeService', () => {
       })
     });
   
-    it('should toggle the value', (done) => {
+    it('should toggle the value from dark to light', (done) => {
       service.theme$
       .pipe(
         take(1),

@@ -12,7 +12,7 @@ export class LikeService {
   ) { }
   
   getLikes(pageNumber: string, post_id: string, user_id=''){
-    const url = `like/?page=${pageNumber ? pageNumber : ''}&post=${post_id}&user=${user_id}`
+    const url = `like/?page=${pageNumber}&post=${post_id}&user=${user_id}`
     return this.http.get<PaginatedLike>(url)
   }
 

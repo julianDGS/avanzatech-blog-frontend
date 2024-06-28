@@ -203,8 +203,10 @@ describe('PostCreateComponent', () => {
     })
 
     it('should set loading to false on error getting post', () => {
+      component.loading.set(true);
+      component.post.set(null);
       postSvSpy.getPost.and.returnValue(throwError(() => 'error'));
-      fixture.detectChanges();
+      component.ngOnInit();
       expect(component.loading()).toBeFalse();
     });
 
